@@ -12,16 +12,13 @@ class FileServiceImplementation(fileservice_pb2_grpc.FileServiceServicer):
     def __init__(self, db=None):
         self.db = db
 
-    def UploadFile(self, request, context):
-        user_name = request.username
-        file_name = request.fileName
-        Logger.info("Upload request received.")
-        while(next(request.data)):
-            # save the file in mongo
-            print(f"im here : {request.data}")
-
-    CHUNK_SIZE = 4 * 1024
-    THRESHHOLD = 4000000
+    def UploadFile(self, chunk_iterator, context):
+        print('hello')
+        for chunk in chunk_iterator:
+            user_name = chunk.username
+            file_name = chunk.filename
+            print(chunk.data)
+        return fileservice_pb2.ack(success=True, message="received")
 
     def fileExists(file_path):
         if os.path.exists(file_path):
