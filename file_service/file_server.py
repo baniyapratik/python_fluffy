@@ -12,27 +12,20 @@ class FileServiceImplementation(fileservice_pb2_grpc.FileServiceServicer):
     def __init__(self, db=None):
         self.db = db
 
-    def UploadFile(self, request, context):
-        user_name = request.username
-        file_name = request.fileName
+    def UploadFile(self, request_iterator, context):
         Logger.info("Upload request received.")
-        while(next(request.data)):
-            # save the file in mongo
-            print(f"im here : {request.data}")
+        for request in request_iterator:
+            user_name = request.username
+            file_name = request.filename
+            chunk = request.data
+        Logger.info("File Upload Request Complete.")
+        return fileservice_pb2.ack(success=True, message="File Uploaded")
 
-    CHUNK_SIZE = 4 * 1024
-    THRESHHOLD = 4000000
+    def FileDelete(self, request, context):
+        Logger.info("Delete request received.")
+        username = request.username
+        filename = request.filename
 
-    def fileExists(file_path):
-        if os.path.exists(file_path):
-            return True
-        return False
-
-    def get_file_size(file_path):
-        if fileExists(file_path):
-            file_size = os.path.getsize(file_path)
-            Logger.info(f"File size is {file_size}")
-            return file_size
 
     def start_server(self):
         """
@@ -40,7 +33,7 @@ class FileServiceImplementation(fileservice_pb2_grpc.FileServiceServicer):
         it for serving incoming connections
         """
         # server that can handle multiple requests, defining our threadpool
-        file_server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
+        file_server = grpc.server(futures.ThreadPoolExecutor(max_workers=100), options=(('grpc.max_message_length', 50 * 1024 * 1024,),('grpc.max_receive_message_length', 50 * 1024 * 1024)))
 
         # adding the services that this server can serve
         fileservice_pb2_grpc.add_FileServiceServicer_to_server(FileServiceImplementation(), file_server)
