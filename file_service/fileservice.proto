@@ -1,0 +1,41 @@
+syntax = "proto3";
+
+message FileData {
+	string username = 1;
+	string filename = 2;
+	bytes data = 3;
+}
+
+message ack {
+	bool success = 1;
+	string message = 2;
+}
+
+message FileInfo {
+	UserInfo user_info = 1;
+	string filename = 2;
+}
+
+message UserInfo {
+	string username = 1;
+}
+
+message FileListResponse {
+	string filenames = 1;
+}
+
+service FileGetService {
+	rpc DownloadFile (FileInfo) returns (stream FileData) {}
+	rpc FileSearch (FileInfo) returns (ack) {}
+	rpc FileList (UserInfo) returns (FileListResponse) {}
+}
+
+service FileInternalService {
+    rpc ReplicateFile (stream FileData) returns (ack) {}
+}
+
+service FilePostService {
+    rpc UploadFile (stream FileData) returns (ack) {}
+    rpc FileDelete (FileInfo) returns (ack) {}
+    rpc UpdateFile (stream FileData) returns (ack) {}
+}

@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+message Node {
+	string ip = 1;
+	string port = 2;
+}
+
+message ackResponse {
+	bool success = 1;
+	string message = 2;
+}
+
+message NodeDetail {
+    Node nodeInfo = 1;
+    string state = 2;
+	string isAlive = 3;
+}
+
+message getNeighborRequest {}
+
+message getLeaderRequest {}
+
+message getNeighborResponse {
+    repeated NodeDetail nodes = 1;
+}
+
+service ClusterService {
+  rpc leader_initiate (Node) returns (ackResponse) {}
+  rpc add_neighbor (Node) returns (ackResponse) {}
+  rpc remove_neighbor (Node) returns (ackResponse) {}
+  rpc getNeighbors (getNeighborRequest) returns (getNeighborResponse) {}
+  rpc getLeader (getLeaderRequest) returns (Node) {}
+}
+
+
+
