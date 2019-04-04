@@ -1,33 +1,40 @@
 import grpc
 import time
+from utils.logger import Logger
 from concurrent import futures
-from file_service import fileservice_pb2, fileservice_pb2_grpc
+from file_service.proto import fileservice_pb2, fileservice_pb2_grpc
 
 SERVER_PORT = 50051
 
 
-class FileUploadImplementation(fileservice_pb2_grpc.FilePostServiceServicer):
+class FileServiceImplementation(fileservice_pb2_grpc.FileServiceServicer):
 
     def __init__(self, db=None):
         self.db = db
 
     def UploadFile(self, request, context):
-        leader_address= '127.0.0.1'
-        leader_port = '50051'
-
         user_name = request.username
         file_name = request.fileName
-        data = request.data
+        Logger.info("Upload request received.")
+        while(next(request.data)):
+            # save the file in mongo
+            print(f"im here : {request.data}")
 
+    CHUNK_SIZE = 4 * 1024
+    THRESHHOLD = 4000000
 
-        # save the file in mongo
-        response = fileservice_pb2.ack()
-        response.success = True
-        response.message = file_name
+    def fileExists(file_path):
+        if os.path.exists(file_path):
+            return True
+        return False
 
+    def get_file_size(file_path):
+        if fileExists(file_path):
+            file_size = os.path.getsize(file_path)
+            Logger.info(f"File size is {file_size}")
+            return file_size
 
-
-def start_server():
+    def start_server(self):
         """
         Function which actually starts the gRPC server, and preps
         it for serving incoming connections
@@ -36,8 +43,7 @@ def start_server():
         file_server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
 
         # adding the services that this server can serve
-        #fileservice_pb2_grpc.add_FileGetServiceServicer_to_server(FileServer(), file_server)
-        fileservice_pb2_grpc.add_FilePostServiceServicer_to_server(FileUploadImplementation(), file_server)
+        fileservice_pb2_grpc.add_FileServiceServicer_to_server(FileServiceImplementation(), file_server)
 
         # bind the server to the described port
         file_server.add_insecure_port('[::]:{}'.format(SERVER_PORT))
@@ -58,5 +64,5 @@ def start_server():
 if __name__ == '__main__':
     from database import mg
     mg.init_app()
-    file_server = FileServerImplementation(mg)
+    file_server = FileServiceImplementation(mg)
     file_server.start_server()
