@@ -1,3 +1,4 @@
+import os
 import grpc
 import time
 from utils.logger import Logger
@@ -9,15 +10,28 @@ SERVER_PORT = 50051
 
 class FileServiceImplementation(fileservice_pb2_grpc.FileServiceServicer):
 
-    def __init__(self, db=None):
-        self.db = db
+    def __init__(self, mg=None):
+        self.mg = mg
 
     def UploadFile(self, request_iterator, context):
+        temp_file = '/tmpfile'
         Logger.info("Upload request received.")
-        for request in request_iterator:
-            user_name = request.username
-            file_name = request.filename
-            chunk = request.data
+        with (temp_file, 'wb')as tempfile:
+            for request in request_iterator:
+                user_name = request.username
+                file_name = request.filename
+                chunk = request.data
+                tempfile.write(chunk)
+        f = open(tempfile, 'rb')
+        data = f.read()
+        self.mg.db['raft_service']['files'].insert(
+            {
+                "user_name": user_name,
+                "file_name": file_name,
+                "bytes": data
+            }
+        )
+        os.remove(temp_file)
         Logger.info("File Upload Request Complete.")
         return fileservice_pb2.ack(success=True, message="File Uploaded")
 
