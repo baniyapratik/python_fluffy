@@ -35,12 +35,12 @@ class FileClient(object):
         request.user_info.username = 'prabaniy'
         self.stub.FileDelete(request)
 
-    def UploadFile(self, _file):
+    def UploadFile(self, _file, username):
         """
         Client function to call the rpc for GetDigest
         """
         Logger.info(f'Starting to stream the file...')
-        chunk_iterator = self.chunk_bytes(_file)
+        chunk_iterator = self.chunk_bytes(_file, username)
         response = self.stub.UploadFile(chunk_iterator)
         Logger.info(f'File Uploaded. Response {response}')
         return response
@@ -56,12 +56,12 @@ class FileClient(object):
             Logger.info(f"File size is {file_size}")
             return file_size
 
-    def chunk_bytes(self, _file):
+    def chunk_bytes(self, _file, username):
         """Yield successive n-sized chunks"""
         # File size in megabytes
         _file_len = self.get_file_size(_file)
         print(f"{_file_len}")
-
+        filename = os.path.split(_file)[-1]
         with open(_file, 'rb') as _file:
             if _file_len > THRESHHOLD:
                 chunk_size = CHUNK_SIZE
@@ -69,24 +69,17 @@ class FileClient(object):
                 index = 0
                 for i in tqdm(range(0, total_chunks)):
                     _file.seek(index)
-                    chunk = _file.read(index + chunk_size)
-                    yield fileservice_pb2.FileData(username='ben', filename='_file', data=chunk)
+                    chunk = _file.read(chunk_size)
+                    yield fileservice_pb2.FileData(username=username, filename=filename, data=chunk)
 
                     index += chunk_size
             else:
                 chunk = _file.read()
-                yield fileservice_pb2.FileData(username='prabaniy',
-                                               filename='_file.txt',
+                yield fileservice_pb2.FileData(username=username,
+                                               filename=filename,
                                                data=chunk)
-
-    def file_iterator(_file, index, chunk_size):
-        yield _file.read(index + chunk_size)
-
-
-
-
 
 if __name__ == '__main__':
     curr_client = FileClient()
-    curr_client.UploadFile('/Users/prabaniy/Downloads/sample_data.txt')
+    curr_client.UploadFile('/Users/prabaniy/Downloads/sample_data.txt', 'prabaniy')
     #curr_client.FileDelete('username', 'filename')

@@ -2,13 +2,14 @@ import grpc
 from utils.logger import Logger
 from cluster.proto import cluster_pb2, cluster_pb2_grpc
 
-SERVER_PORT = '50053'
+SERVER_PORT_1 = '50053'
+SERVER_PORT_2 = '50054'
 
 
 class ClusterClient():
     def __init__(self):
         self.host = 'localhost'
-        self.port = SERVER_PORT
+        self.port = SERVER_PORT_1
         self.channel = grpc.insecure_channel(f'{self.host}:{self.port}')
         self.stub = cluster_pb2_grpc.ClusterServiceStub(self.channel)
 
@@ -63,4 +64,5 @@ class ClusterClient():
 
 if __name__ == "__main__":
     cluster_client = ClusterClient()
-    cluster_client.leader_initiate(ip="localhost", port=SERVER_PORT)
+    cluster_client.leader_initiate(ip="localhost", port=SERVER_PORT_1)
+    cluster_client.add_neighbor(ip="localhost", port=SERVER_PORT_2)

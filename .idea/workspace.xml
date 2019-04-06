@@ -2,6 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5cc24470-ca71-478a-938a-57d631037f41" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/cluster/cluster_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/cluster/cluster_client.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/file_service/file_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/file_service/file_client.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/file_service/file_server.py" beforeDir="false" afterPath="$PROJECT_DIR$/file_service/file_server.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
@@ -12,24 +15,24 @@
   </component>
   <component name="CoverageDataManager">
     <SUITE FILE_PATH="coverage/python_fluffy$monit_client.coverage" NAME="monit_client Coverage Results" MODIFIED="1554094619278" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/monitor" />
-    <SUITE FILE_PATH="coverage/python_fluffy$cluster_client.coverage" NAME="cluster_client Coverage Results" MODIFIED="1554174227509" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/cluster" />
     <SUITE FILE_PATH="coverage/python_fluffy$FileHandler.coverage" NAME="FileHandler Coverage Results" MODIFIED="1554268214940" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/utils" />
-    <SUITE FILE_PATH="coverage/python_fluffy$file_server.coverage" NAME="file_server Coverage Results" MODIFIED="1554352592070" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/file_service" />
+    <SUITE FILE_PATH="coverage/python_fluffy$cluster_client.coverage" NAME="cluster_client Coverage Results" MODIFIED="1554435922389" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/cluster" />
+    <SUITE FILE_PATH="coverage/python_fluffy$file_server.coverage" NAME="file_server Coverage Results" MODIFIED="1554436483907" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/file_service" />
     <SUITE FILE_PATH="coverage/python_fluffy$monit_server.coverage" NAME="monit_server Coverage Results" MODIFIED="1554173262553" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/monitor" />
-    <SUITE FILE_PATH="coverage/python_fluffy$cluster_server.coverage" NAME="cluster_server Coverage Results" MODIFIED="1554174220343" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/cluster" />
+    <SUITE FILE_PATH="coverage/python_fluffy$cluster_server.coverage" NAME="cluster_server Coverage Results" MODIFIED="1554433903759" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/cluster" />
     <SUITE FILE_PATH="coverage/python_fluffy$cpu_monit.coverage" NAME="cpu_monit Coverage Results" MODIFIED="1554070444695" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/monitor/libs" />
     <SUITE FILE_PATH="coverage/python_fluffy$comsumer.coverage" NAME="comsumer Coverage Results" MODIFIED="1554069970474" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/monitor/libs" />
     <SUITE FILE_PATH="coverage/python_fluffy$test.coverage" NAME="test Coverage Results" MODIFIED="1554071663934" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/monitor/libs" />
     <SUITE FILE_PATH="coverage/python_fluffy$server.coverage" NAME="server Coverage Results" MODIFIED="1554081361223" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/file_service" />
-    <SUITE FILE_PATH="coverage/python_fluffy$file_client.coverage" NAME="file_client Coverage Results" MODIFIED="1554352596791" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/file_service" />
+    <SUITE FILE_PATH="coverage/python_fluffy$file_client.coverage" NAME="file_client Coverage Results" MODIFIED="1554436488831" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="true" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/file_service" />
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cluster/cluster_server.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="345">
-              <caret line="100" column="30" selection-start-line="100" selection-start-column="30" selection-end-line="100" selection-end-column="30" />
+            <state relative-caret-position="182">
+              <caret line="38" column="20" selection-start-line="38" selection-start-column="8" selection-end-line="38" selection-end-column="20" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
               </folding>
@@ -49,8 +52,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cluster/cluster_client.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="960">
-              <caret line="64" column="36" selection-start-line="64" selection-start-column="36" selection-end-line="64" selection-end-column="36" />
+            <state relative-caret-position="930">
+              <caret line="62" selection-start-line="62" selection-end-line="62" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
               </folding>
@@ -59,28 +62,10 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/cluster/libs/node.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="354">
-              <caret line="32" selection-start-line="32" selection-end-line="32" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/cluster/libs/cluster.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="420">
-              <caret line="28" column="26" selection-start-line="28" selection-start-column="26" selection-end-line="28" selection-end-column="26" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/file_service/file_client.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="535">
-              <caret line="44" column="58" selection-start-line="44" selection-start-column="58" selection-end-line="44" selection-end-column="58" />
+            <state relative-caret-position="522">
+              <caret line="44" column="35" selection-start-line="44" selection-start-column="27" selection-end-line="44" selection-end-column="35" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
@@ -91,8 +76,17 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/database/mongo_factory.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="20" column="16" selection-start-line="20" selection-start-column="16" selection-end-line="20" selection-end-column="16" />
+            <state relative-caret-position="30">
+              <caret line="2" selection-start-line="2" selection-end-line="2" selection-end-column="42" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/database/__init__.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="15">
+              <caret line="1" selection-start-line="1" selection-end-line="1" />
             </state>
           </provider>
         </entry>
@@ -100,7 +94,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/monitor/monit_client.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="366">
+            <state relative-caret-position="339">
               <caret line="26" selection-start-line="26" selection-end-line="26" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
@@ -112,7 +106,7 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/monitor/monit_server.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
+            <state relative-caret-position="241">
               <caret line="18" column="29" selection-start-line="18" selection-start-column="22" selection-end-line="18" selection-end-column="29" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
@@ -124,13 +118,18 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/file_service/file_server.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="368">
-              <caret line="33" column="28" lean-forward="true" selection-start-line="33" selection-start-column="28" selection-end-line="33" selection-end-column="28" />
+            <state relative-caret-position="304">
+              <caret line="120" column="29" selection-start-line="120" selection-start-column="29" selection-end-line="120" selection-end-column="29" />
               <folding>
                 <element signature="e#0#9#0" expanded="true" />
               </folding>
             </state>
           </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/file_service/file_data/prabaniy/sample_data.txt">
+          <provider selected="true" editor-type-id="text-editor" />
         </entry>
       </file>
     </leaf>
@@ -161,6 +160,12 @@
       <find>nodeId</find>
       <find>uploadFiles</find>
       <find>print</find>
+      <find>UUID</find>
+      <find>SERVER_PORT</find>
+      <find>hostip</find>
+      <find>file_iterator</find>
+      <find>ReplicateFile</find>
+      <find>File size</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -195,7 +200,6 @@
         <option value="$PROJECT_DIR$/app.py" />
         <option value="$PROJECT_DIR$/cluster/proto/cluster.proto" />
         <option value="$PROJECT_DIR$/cluster/proto/cluster_pb2_grpc.py" />
-        <option value="$PROJECT_DIR$/cluster/cluster_client.py" />
         <option value="$PROJECT_DIR$/monitor/monit_client.py" />
         <option value="$PROJECT_DIR$/monitor/monit_server.py" />
         <option value="$PROJECT_DIR$/cluster/libs/cluster.py" />
@@ -204,15 +208,15 @@
         <option value="$PROJECT_DIR$/file_service/fileservice.proto" />
         <option value="$PROJECT_DIR$/file_service/proto/fileservice_pb2_grpc.py" />
         <option value="$PROJECT_DIR$/utils/FileHandler.py" />
+        <option value="$PROJECT_DIR$/cluster/cluster_client.py" />
         <option value="$PROJECT_DIR$/file_service/file_client.py" />
         <option value="$PROJECT_DIR$/file_service/file_server.py" />
       </list>
     </option>
   </component>
   <component name="ProjectFrameBounds">
-    <option name="x" value="182" />
     <option name="y" value="23" />
-    <option name="width" value="1258" />
+    <option name="width" value="1058" />
     <option name="height" value="829" />
   </component>
   <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
@@ -232,34 +236,19 @@
             <path>
               <item name="python_fluffy" type="b2602c69:ProjectViewProjectNode" />
               <item name="python_fluffy" type="462c0819:PsiDirectoryNode" />
-              <item name="cluster" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="python_fluffy" type="b2602c69:ProjectViewProjectNode" />
-              <item name="python_fluffy" type="462c0819:PsiDirectoryNode" />
-              <item name="cluster" type="462c0819:PsiDirectoryNode" />
-              <item name="libs" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="python_fluffy" type="b2602c69:ProjectViewProjectNode" />
-              <item name="python_fluffy" type="462c0819:PsiDirectoryNode" />
-              <item name="database" type="462c0819:PsiDirectoryNode" />
+              <item name="file_service" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="python_fluffy" type="b2602c69:ProjectViewProjectNode" />
               <item name="python_fluffy" type="462c0819:PsiDirectoryNode" />
               <item name="file_service" type="462c0819:PsiDirectoryNode" />
+              <item name="file_data_50051" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="python_fluffy" type="b2602c69:ProjectViewProjectNode" />
               <item name="python_fluffy" type="462c0819:PsiDirectoryNode" />
               <item name="file_service" type="462c0819:PsiDirectoryNode" />
               <item name="proto" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="python_fluffy" type="b2602c69:ProjectViewProjectNode" />
-              <item name="python_fluffy" type="462c0819:PsiDirectoryNode" />
-              <item name="monitor" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="python_fluffy" type="b2602c69:ProjectViewProjectNode" />
@@ -425,9 +414,9 @@
       <list>
         <item itemvalue="Python.file_client" />
         <item itemvalue="Python.file_server" />
-        <item itemvalue="Python.FileHandler" />
         <item itemvalue="Python.cluster_client" />
         <item itemvalue="Python.cluster_server" />
+        <item itemvalue="Python.FileHandler" />
       </list>
     </recent_temporary>
   </component>
@@ -446,23 +435,23 @@
       <workItem from="1554089710257" duration="8034000" />
       <workItem from="1554169706298" duration="3441000" />
       <workItem from="1554261893623" duration="5390000" />
-      <workItem from="1554337218494" duration="12478000" />
+      <workItem from="1554337218494" duration="13071000" />
+      <workItem from="1554424842912" duration="10603000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="44608000" />
+    <option name="totallyTimeSpent" value="55804000" />
   </component>
   <component name="ToolWindowManager">
-    <frame x="182" y="23" width="1258" height="829" extended-state="0" />
-    <editor active="true" />
+    <frame x="0" y="23" width="1058" height="829" extended-state="0" />
     <layout>
-      <window_info active="true" content_ui="combo" id="Project" order="0" visible="true" weight="0.1875" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.2273622" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
-      <window_info anchor="bottom" id="Find" order="1" />
-      <window_info anchor="bottom" id="Run" order="2" visible="true" weight="0.32700136" />
+      <window_info anchor="bottom" id="Find" order="1" weight="0.32971507" />
+      <window_info anchor="bottom" id="Run" order="2" weight="0.32700136" />
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
@@ -494,20 +483,7 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/monitor/requirements.txt" />
-    <entry file="file://$PROJECT_DIR$/database/__init__.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
-          <caret line="1" lean-forward="true" selection-start-line="1" selection-end-line="1" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/file_service/fileservice_pb2_grpc.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="138">
-          <caret line="114" selection-start-line="114" selection-end-line="114" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/file_service/fileservice_pb2_grpc.py" />
     <entry file="file://$PROJECT_DIR$/utils/timer.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
@@ -575,13 +551,7 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/file_service/fileservice_pb2.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4605">
-          <caret line="307" column="44" selection-start-line="307" selection-start-column="35" selection-end-line="307" selection-end-column="44" />
-        </state>
-      </provider>
-    </entry>
+    <entry file="file://$PROJECT_DIR$/file_service/fileservice_pb2.py" />
     <entry file="file://$PROJECT_DIR$/requirements.txt">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="60">
@@ -614,23 +584,10 @@
         <state relative-caret-position="-383" />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/monitor/monit_client.py">
+    <entry file="file://$PROJECT_DIR$/cluster/libs/node.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="366">
-          <caret line="26" selection-start-line="26" selection-end-line="26" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/monitor/monit_server.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="270">
-          <caret line="18" column="29" selection-start-line="18" selection-start-column="22" selection-end-line="18" selection-end-column="29" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="480">
+          <caret line="32" selection-start-line="32" selection-end-line="32" />
         </state>
       </provider>
     </entry>
@@ -641,37 +598,57 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cluster/libs/node.py">
+    <entry file="file://$PROJECT_DIR$/monitor/monit_server.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="354">
-          <caret line="32" selection-start-line="32" selection-end-line="32" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cluster/cluster_client.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="960">
-          <caret line="64" column="36" selection-start-line="64" selection-start-column="36" selection-end-line="64" selection-end-column="36" />
+        <state relative-caret-position="241">
+          <caret line="18" column="29" selection-start-line="18" selection-start-column="22" selection-end-line="18" selection-end-column="29" />
           <folding>
             <element signature="e#0#11#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/cluster/cluster_server.py">
+    <entry file="file://$PROJECT_DIR$/database/__init__.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="100" column="30" selection-start-line="100" selection-start-column="30" selection-end-line="100" selection-end-column="30" />
-          <folding>
-            <element signature="e#0#11#0" expanded="true" />
-          </folding>
+        <state relative-caret-position="15">
+          <caret line="1" selection-start-line="1" selection-end-line="1" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/database/mongo_factory.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="20" column="16" selection-start-line="20" selection-start-column="16" selection-end-line="20" selection-end-column="16" />
+        <state relative-caret-position="30">
+          <caret line="2" selection-start-line="2" selection-end-line="2" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/file_service/temp">
+      <provider selected="true" editor-type-id="LargeFileEditor">
+        <state relative-caret-position="120">
+          <caret line="8" column="15" selection-start-line="8" selection-start-column="15" selection-end-line="8" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/monitor/monit_client.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="339">
+          <caret line="26" selection-start-line="26" selection-end-line="26" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/file_service/file_data/prabaniy/sample_data.txt">
+      <provider selected="true" editor-type-id="text-editor" />
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cluster/cluster_server.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="182">
+          <caret line="38" column="20" selection-start-line="38" selection-start-column="8" selection-end-line="38" selection-end-column="20" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
@@ -682,10 +659,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/cluster/cluster_client.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="930">
+          <caret line="62" selection-start-line="62" selection-end-line="62" />
+          <folding>
+            <element signature="e#0#11#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/file_service/file_client.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="535">
-          <caret line="44" column="58" selection-start-line="44" selection-start-column="58" selection-end-line="44" selection-end-column="58" />
+        <state relative-caret-position="522">
+          <caret line="44" column="35" selection-start-line="44" selection-start-column="27" selection-end-line="44" selection-end-column="35" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>
@@ -694,8 +681,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/file_service/file_server.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="368">
-          <caret line="33" column="28" lean-forward="true" selection-start-line="33" selection-start-column="28" selection-end-line="33" selection-end-column="28" />
+        <state relative-caret-position="304">
+          <caret line="120" column="29" selection-start-line="120" selection-start-column="29" selection-end-line="120" selection-end-column="29" />
           <folding>
             <element signature="e#0#9#0" expanded="true" />
           </folding>
