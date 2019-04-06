@@ -13,7 +13,7 @@ class BalancerServer( unittest.TestCase ):
 
         self.lb.nodes = nodes
 
-        self.assertTrue(self.lb.count == 0)
+        self.assertTrue(self.lb.index == 0)
 
         for j in range(len(nodes)):
             self.assertTrue(self.lb.get() == nodes[j])
