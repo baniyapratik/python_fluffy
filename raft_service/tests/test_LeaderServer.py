@@ -37,7 +37,7 @@ class TestLeaderServer( unittest.TestCase ):
 	def test_leader_server_sends_heartbeat_to_all_neighbors( self ):
 
 		self._perform_hearbeat()
-		self.assertEquals( { 1: 0, 2: 0, 3: 0 }, self.leader._state._nextIndexes ) 
+		self.assertEqual( { 1: 0, 2: 0, 3: 0 }, self.leader._state._nextIndexes )
 
 	def test_leader_server_sends_appendentries_to_all_neighbors_and_is_appended_to_their_logs( self ):
 
@@ -55,7 +55,7 @@ class TestLeaderServer( unittest.TestCase ):
 			i.on_message( i._messageBoard.get_message() )
 
 		for i in self.leader._neighbors:
-			self.assertEquals( [{ "term": 1, "value": 100 } ], i._log )
+			self.assertEqual( [{ "term": 1, "value": 100 } ], i._log )
 
 
 	def test_leader_server_sends_appendentries_to_all_neighbors_but_some_have_dirtied_logs( self ):
@@ -79,6 +79,6 @@ class TestLeaderServer( unittest.TestCase ):
 			i.on_message( i._messageBoard.get_message() )
 
 		for i in self.leader._neighbors:
-			self.assertEquals( [{ "term": 1, "value": 100 } ], i._log )
+			self.assertEqual( [{ "term": 1, "value": 100 } ], i._log )
 			
 

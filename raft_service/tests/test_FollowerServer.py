@@ -29,7 +29,7 @@ class TestFollowerServer( unittest.TestCase ):
 
 		self.server.on_message( msg )
 
-		self.assertEquals( False, self.oserver._messageBoard.get_message().data["response"] )
+		self.assertEqual( False, self.oserver._messageBoard.get_message().data["response"] )
 
 	def test_follower_server_on_receive_message_with_greater_term( self ):
 
@@ -37,7 +37,7 @@ class TestFollowerServer( unittest.TestCase ):
 
 		self.server.on_message( msg )
 
-		self.assertEquals( 2, self.server._currentTerm )
+		self.assertEqual( 2, self.server._currentTerm )
 
 	def test_follower_server_on_receive_message_where_log_does_not_have_prevLogTerm( self ):
 		self.server._log.append( { "term": 100, "value": 2000 } )
@@ -49,8 +49,8 @@ class TestFollowerServer( unittest.TestCase ):
 
 		self.server.on_message( msg )
 
-		self.assertEquals( False, self.oserver._messageBoard.get_message().data["response"] )
-		self.assertEquals( [], self.server._log )
+		self.assertEqual( False, self.oserver._messageBoard.get_message().data["response"] )
+		self.assertEqual( [], self.server._log )
 
 	def test_follower_server_on_receive_message_where_log_contains_conflicting_entry_at_new_index( self ):
 
@@ -66,8 +66,8 @@ class TestFollowerServer( unittest.TestCase ):
 							"entries": [ { "term": 1, "value": 100 } ] } )
 
 		self.server.on_message( msg )
-		self.assertEquals( { "term": 1, "value": 100 }, self.server._log[1] )
-		self.assertEquals( [ { "term": 1, "value": 0 }, { "term": 1, "value": 100 } ], self.server._log )
+		self.assertEqual( { "term": 1, "value": 100 }, self.server._log[1] )
+		self.assertEqual( [ { "term": 1, "value": 0 }, { "term": 1, "value": 100 } ], self.server._log )
 
 	def test_follower_server_on_receive_message_where_log_is_empty_and_receives_its_first_value( self ):
 
@@ -78,15 +78,15 @@ class TestFollowerServer( unittest.TestCase ):
 							"entries": [ { "term": 1, "value": 100 } ] } )
 
 		self.server.on_message( msg )
-		self.assertEquals( { "term": 1, "value": 100 }, self.server._log[0] )
+		self.assertEqual( { "term": 1, "value": 100 }, self.server._log[0] )
 
 	def test_follower_server_on_receive_vote_request_message( self ):
 		msg = RequestVoteMessage( 0, 1, 2, { "lastLogIndex": 0, "lastLogTerm": 0, "entries": [] } )
 
 		self.server.on_message( msg )
 
-		self.assertEquals( 0, self.server._state._last_vote )
-		self.assertEquals( True, self.oserver._messageBoard.get_message().data["response"] )
+		self.assertEqual( 0, self.server._state._last_vote )
+		self.assertEqual( True, self.oserver._messageBoard.get_message().data["response"] )
 
 
 	def test_follower_server_on_receive_vote_request_after_sending_a_vote( self ):
@@ -97,6 +97,6 @@ class TestFollowerServer( unittest.TestCase ):
 		msg = RequestVoteMessage( 2, 1, 2, {} )
 		self.server.on_message( msg )
 
-		self.assertEquals( 0, self.server._state._last_vote )
+		self.assertEqual( 0, self.server._state._last_vote )
 
 
