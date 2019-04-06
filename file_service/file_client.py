@@ -45,6 +45,26 @@ class FileClient(object):
         Logger.info(f'File Uploaded. Response {response}')
         return response
 
+    def DownloadFile(self, _file, username):
+        request = fileservice_pb2.FileInfo()
+        request.user_info.username = username
+        request.filename = _file
+        # Check for the destination file
+        destination_path = f"download_data_{self.server_port}/{username}"
+        if not os.path.exists(destination_path):
+            os.makedirs(destination_path)
+
+        f = open(f"{destination_path}/{_file}", 'bw+')
+        self.stub.DownloadFile(request)
+        try:
+
+            for response in self.stub.DownloadFile(request):
+                chunk = response.data
+                f.write(chunk)
+        except grpc.RpcError as err:
+            Logger.warning(f"GRPC error. {err}")
+        f.close()
+
     def fileExists(self, file_path):
         if os.path.exists(file_path):
             return True

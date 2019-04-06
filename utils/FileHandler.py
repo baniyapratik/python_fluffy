@@ -1,11 +1,11 @@
 import os
 import math
-import itertools
 from tqdm import tqdm
 from utils.logger import Logger
 
 CHUNK_SIZE = 4*1024
 THRESHHOLD = 4000000
+
 
 def fileExists(file_path):
     if os.path.exists(file_path):
@@ -20,23 +20,26 @@ def get_file_size(file_path):
         return file_size
 
 
-def chunk_bytes(_file):
-    """Yield successive n-sized chunks"""
-    # File size in megabytes
-    _file_len = get_file_size(_file)
-    with open(_file, 'rb') as _file:
-        if _file_len > THRESHHOLD:
-            chunk_size = CHUNK_SIZE
-            total_chunks = math.ceil(_file_len/chunk_size)
-            index = 0
-            for i in tqdm(range(0, total_chunks, chunk_size)):
-                _file.seek(index)
-                yield (_file.read(index+chunk_size))
-                index += chunk_size
-        else:
+def chunk_bytes(_file, username, fileservice_pb2):
+        """Yield successive n-sized chunks"""
+        # File size in megabytes
+        _file_len = get_file_size(_file)
+        Logger.info(f"File is  {_file}")
+        print(f"{_file_len}")
+        filename = os.path.split(_file)[-1]
+        with open(_file, 'rb') as _file:
+            if _file_len > THRESHHOLD:
+                chunk_size = CHUNK_SIZE
+                total_chunks = math.ceil(_file_len / chunk_size)
+                index = 0
+                for i in tqdm(range(0, total_chunks)):
+                    _file.seek(index)
+                    chunk = _file.read(chunk_size)
+                    yield fileservice_pb2.FileData(username=username, filename=filename, data=chunk)
 
-            yield _file.read()
-
-
-
-
+                    index += chunk_size
+            else:
+                chunk = _file.read()
+                yield fileservice_pb2.FileData(username=username,
+                                               filename=filename,
+                                               data=chunk)

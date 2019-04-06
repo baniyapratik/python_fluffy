@@ -1,8 +1,9 @@
 import os
 import grpc
 import time
-import tqdm
+from tqdm import tqdm
 import math
+from utils import FileHandler
 from utils.logger import Logger
 from concurrent import futures
 from file_service.proto import fileservice_pb2, fileservice_pb2_grpc
@@ -30,23 +31,25 @@ class FileServiceImplementation(fileservice_pb2_grpc.FileServiceServicer):
         self.port = port
 
     def ReplicateFile(self, request_iterator, context):
-        Logger.info("Replicate request received.")
-        temp_file = "replicate_"+ self.port
+        Logger.info(f"Replicate request received. {self.port}")
+        temp_file = f"replicate_{self.port}"
+        Logger.info("Create temp file " + temp_file)
         f = open(temp_file, 'bw+')
         try:
             for request in request_iterator:
-                    user_name = request.username
-                    file_name = request.filename
-                    chunk = request.data
-                    f.write(chunk)
+                user_name = request.username
+                file_name = request.filename
+                chunk = request.data
+                f.write(chunk)
 
         finally:
             f.close()
 
-        destination_path = f"replicated_data/{user_name}"
+        destination_path = f"file_data_{self.port}/{user_name}"
         if not os.path.exists(destination_path):
             os.makedirs(destination_path)
         os.system(f"mv {temp_file} {destination_path}/{file_name}")
+        return fileservice_pb2.ack(success=True, message="File Uploaded")
 
 
     def UploadFile(self, request_iterator, context):
@@ -63,12 +66,14 @@ class FileServiceImplementation(fileservice_pb2_grpc.FileServiceServicer):
             f.close()
 
         destination_path = f"file_data_{self.port}/{user_name}"
+        destination_file_path = f"{destination_path}/{file_name}"
         if not os.path.exists(destination_path):
             os.makedirs(destination_path)
         os.system(f"mv {temp_file} {destination_path}/{file_name}")
 
         # After the file is saved send it to the neigbors
-        self.replicate_to_neighbor(destination_path, user_name)
+        Logger.info("Spawn thread to send " + destination_file_path + " to neighbors")
+        Thread(target=self.replicate_to_neighbor, args=(destination_file_path, user_name)).start()
 
         Logger.info("File Upload Request Complete.")
         return fileservice_pb2.ack(success=True, message="File Uploaded")
@@ -88,11 +93,9 @@ class FileServiceImplementation(fileservice_pb2_grpc.FileServiceServicer):
             print("About to chunk")
             chunk_iterator = self.chunk_bytes(destination_path, user_name)
 
-            print("Chunk it up")
-
+            Logger.info("Sending " + destination_path + " to " + neighbor['ip'] + ":" + str(neighbor['port']))
             response = stub.ReplicateFile(chunk_iterator)
             Logger.info("Files Replicated")
-            return response
 
     def fileExists(self, file_path):
         if os.path.exists(file_path):
@@ -131,9 +134,41 @@ class FileServiceImplementation(fileservice_pb2_grpc.FileServiceServicer):
 
     def FileDelete(self, request, context):
         Logger.info("Delete request received.")
-        username = request.username
+        username = request.user_info.username
         filename = request.filename
 
+    def DownloadFile(self, request, context):
+        username = request.user_info.username
+        filename = request.filename
+        Logger.info(f"Download request received from {username}.")
+
+        destination_path = f"file_data_{self.port}/{username}/{filename}"
+        if not os.path.exists(destination_path):
+            raise RuntimeError("File does not exist")
+        else:
+            Logger.info(f"Starting chunking.")
+            _file_len = self.get_file_size(destination_path)
+            Logger.info(f"File is  {destination_path}")
+            print(f"{_file_len}")
+            filename = os.path.split(destination_path)[-1]
+
+            with open(destination_path, 'rb') as _file:
+                if _file_len > THRESHHOLD:
+                    chunk_size = CHUNK_SIZE
+                    total_chunks = math.ceil(_file_len / chunk_size)
+                    index = 0
+                    for i in tqdm(range(0, total_chunks)):
+                        _file.seek(index)
+                        chunk = _file.read(chunk_size)
+
+                        yield fileservice_pb2.FileData(username=username, filename=filename, data=chunk)
+                        index += chunk_size
+                else:
+                    chunk = _file.read()
+                    yield fileservice_pb2.FileData(username=username,
+                                                   filename=filename,
+                                                   data=chunk)
+        Logger.info(f"Chunking complete")
 
     def start_server(self):
         """
