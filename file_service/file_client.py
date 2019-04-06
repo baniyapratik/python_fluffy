@@ -29,11 +29,14 @@ class FileClient(object):
         # bind the client to the server channel
         self.stub = fileservice_pb2_grpc.FileServiceStub(self.channel)
 
-    def FileDelete(self, username, filename):
+    def FileDelete(self, filename, username):
+        Logger.info(f'Starting to delete the file...')
         request = fileservice_pb2.FileInfo()
-        request.filename = "filename"
-        request.user_info.username = 'prabaniy'
-        self.stub.FileDelete(request)
+        request.filename = filename
+        request.user_info.username =username
+        response = self.stub.FileDelete(request)
+        Logger.info(f'File deleted')
+        return response
 
     def UploadFile(self, _file, username):
         """
@@ -101,5 +104,5 @@ class FileClient(object):
 
 if __name__ == '__main__':
     curr_client = FileClient()
-    curr_client.UploadFile('/Users/prabaniy/Downloads/sample_data.txt', 'prabaniy')
+    curr_client.FileDelete('sample_data.txt', 'prabaniy')
     #curr_client.FileDelete('username', 'filename')

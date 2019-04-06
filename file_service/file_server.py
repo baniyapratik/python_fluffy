@@ -94,7 +94,7 @@ class FileServiceImplementation(fileservice_pb2_grpc.FileServiceServicer):
             chunk_iterator = self.chunk_bytes(destination_path, user_name)
 
             Logger.info("Sending " + destination_path + " to " + neighbor['ip'] + ":" + str(neighbor['port']))
-            response = stub.ReplicateFile(chunk_iterator)
+            stub.ReplicateFile(chunk_iterator)
             Logger.info("Files Replicated")
 
     def fileExists(self, file_path):
@@ -136,6 +136,33 @@ class FileServiceImplementation(fileservice_pb2_grpc.FileServiceServicer):
         Logger.info("Delete request received.")
         username = request.user_info.username
         filename = request.filename
+        destination_path = f"file_data_{self.port}/{username}/{filename}"
+        Logger.info(f"File to be deleted: {destination_path}")
+        if not os.path.exists(destination_path):
+            raise RuntimeError("File does not exist to delete")
+        os.remove(destination_path)
+
+        Thread(target=self.delete_from_neighbor, args=(filename, username)).start()
+
+        Logger.info("File deleted")
+        return fileservice_pb2.ack(success=True, message="File Deleted")
+
+    def delete_from_neighbor(self, filename, user_name):
+        Logger.info("Deleting the file from neighbors")
+        neighbors = call_neghbor()
+        for neighbor in neighbors:
+            # instantiate a communication channel
+            channel = grpc.insecure_channel(
+                '{}:{}'.format(neighbor['ip'], neighbor['port']))
+            # bind the client to the server channel
+            stub = fileservice_pb2_grpc.FileServiceStub(channel)
+            Logger.info("ready to delete from replicate")
+            request = fileservice_pb2.FileInfo()
+            request.user_info.username = user_name
+            request.filename = filename
+            stub.FileDelete(request)
+            Logger.info("Files Deleted from Nodes.")
+
 
     def DownloadFile(self, request, context):
         username = request.user_info.username
