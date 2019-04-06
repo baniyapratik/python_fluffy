@@ -3,6 +3,7 @@ import math
 from tqdm import tqdm
 import grpc
 from utils.logger import Logger
+from utils import FileHandler
 import utils.FileHandler as file_handler
 from file_service.proto import fileservice_pb2, fileservice_pb2_grpc
 
@@ -43,7 +44,7 @@ class FileClient(object):
         Client function to call the rpc for GetDigest
         """
         Logger.info(f'Starting to stream the file...')
-        chunk_iterator = self.chunk_bytes(_file, username)
+        chunk_iterator = FileHandler.chunk_bytes(_file, username, fileservice_pb2)
         response = self.stub.UploadFile(chunk_iterator)
         Logger.info(f'File Uploaded. Response {response}')
         return response
@@ -87,7 +88,7 @@ class FileClient(object):
 
 if __name__ == '__main__':
     curr_client = FileClient()
+    curr_client.UploadFile('1', 'prabaniy')
     print(curr_client.FileList('prabaniy'))
     #print(curr_client.FileSearch('prabaniy', 'sample_data.txt'))
-    #curr_client.UploadFile('/Users/prabaniy/Downloads/sample_data.txt', 'prabaniy')
     #curr_client.FileDelete('username', 'filename')
