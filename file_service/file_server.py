@@ -1,8 +1,8 @@
 import os
 import grpc
 import time
-from tqdm import tqdm
 import math
+from tqdm import tqdm
 from utils import FileHandler
 from utils.logger import Logger
 from concurrent import futures
@@ -51,6 +51,27 @@ class FileServiceImplementation(fileservice_pb2_grpc.FileServiceServicer):
         os.system(f"mv {temp_file} {destination_path}/{file_name}")
         return fileservice_pb2.ack(success=True, message="File Uploaded")
 
+    def FileSearch(self, request, context):
+        Logger.info("File search request received.")
+        username = request.user_info.username
+        filename = request.filename
+
+        file_path = f"file_data_{self.port}/{username}/{filename}"
+        if os.path.exists(file_path):
+            Logger.info("File search request complete.")
+            return fileservice_pb2.ack(success=True, message=f"{filename} File exists")
+        else:
+            Logger.info("File search request complete.")
+            return fileservice_pb2.ack(success=False, message="File does not exists")
+
+    def FileList(self, request, context):
+        Logger.info("File list request received.")
+        username = request.username
+        directory_path = f"file_data_{self.port}/{username}"
+        onlyfiles = [f for f in os.listdir(directory_path) if os.path.isfile(os.path.join(directory_path, f))]
+        print(onlyfiles)
+        Logger.info("File list request complete.")
+        return fileservice_pb2.FileListResponse(filenames=str(onlyfiles))
 
     def UploadFile(self, request_iterator, context):
         Logger.info("Upload request received.")
@@ -91,46 +112,11 @@ class FileServiceImplementation(fileservice_pb2_grpc.FileServiceServicer):
             Logger.info("ready for chunking to replicate")
 
             print("About to chunk")
-            chunk_iterator = self.chunk_bytes(destination_path, user_name)
+            chunk_iterator = FileHandler.chunk_bytes(destination_path, user_name, fileservice_pb2)
 
             Logger.info("Sending " + destination_path + " to " + neighbor['ip'] + ":" + str(neighbor['port']))
             stub.ReplicateFile(chunk_iterator)
             Logger.info("Files Replicated")
-
-    def fileExists(self, file_path):
-        if os.path.exists(file_path):
-            return True
-        return False
-
-    def get_file_size(self, file_path):
-        if self.fileExists(file_path):
-            file_size = os.path.getsize(file_path)
-            Logger.info(f"File size is {file_size}")
-            return file_size
-
-    def chunk_bytes(self, _file, username):
-        """Yield successive n-sized chunks"""
-        # File size in megabytes
-        _file_len = self.get_file_size(_file)
-        Logger.info(f"File is  {_file}")
-        print(f"{_file_len}")
-        filename = os.path.split(_file)[-1]
-        with open(_file, 'rb') as _file:
-            if _file_len > THRESHHOLD:
-                chunk_size = CHUNK_SIZE
-                total_chunks = math.ceil(_file_len / chunk_size)
-                index = 0
-                for i in tqdm(range(0, total_chunks)):
-                    _file.seek(index)
-                    chunk = _file.read(chunk_size)
-                    yield fileservice_pb2.FileData(username=username, filename=filename, data=chunk)
-
-                    index += chunk_size
-            else:
-                chunk = _file.read()
-                yield fileservice_pb2.FileData(username=username,
-                                               filename=filename,
-                                               data=chunk)
 
     def FileDelete(self, request, context):
         Logger.info("Delete request received.")
@@ -174,11 +160,10 @@ class FileServiceImplementation(fileservice_pb2_grpc.FileServiceServicer):
             raise RuntimeError("File does not exist")
         else:
             Logger.info(f"Starting chunking.")
-            _file_len = self.get_file_size(destination_path)
+            _file_len = FileHandler.get_file_size(destination_path)
             Logger.info(f"File is  {destination_path}")
             print(f"{_file_len}")
             filename = os.path.split(destination_path)[-1]
-
             with open(destination_path, 'rb') as _file:
                 if _file_len > THRESHHOLD:
                     chunk_size = CHUNK_SIZE

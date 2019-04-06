@@ -49,6 +49,7 @@ class FileClient(object):
         return response
 
     def DownloadFile(self, _file, username):
+        Logger.info(f'Starting to Download the file...')
         request = fileservice_pb2.FileInfo()
         request.user_info.username = username
         request.filename = _file
@@ -67,42 +68,26 @@ class FileClient(object):
         except grpc.RpcError as err:
             Logger.warning(f"GRPC error. {err}")
         f.close()
+        Logger.info(f'Downloading the file is complete...')
 
-    def fileExists(self, file_path):
-        if os.path.exists(file_path):
-            return True
-        return False
+    def FileSearch(self, username, _file):
+        Logger.info(f'Searching if the file exists...')
+        request = fileservice_pb2.FileInfo()
+        request.user_info.username = username
+        request.filename = _file
+        response = self.stub.FileSearch(request)
+        Logger.info(f'File search complete...')
+        return response
 
-    def get_file_size(self, file_path):
-        if self.fileExists(file_path):
-            file_size = os.path.getsize(file_path)
-            Logger.info(f"File size is {file_size}")
-            return file_size
-
-    def chunk_bytes(self, _file, username):
-        """Yield successive n-sized chunks"""
-        # File size in megabytes
-        _file_len = self.get_file_size(_file)
-        print(f"{_file_len}")
-        filename = os.path.split(_file)[-1]
-        with open(_file, 'rb') as _file:
-            if _file_len > THRESHHOLD:
-                chunk_size = CHUNK_SIZE
-                total_chunks = math.ceil(_file_len / chunk_size)
-                index = 0
-                for i in tqdm(range(0, total_chunks)):
-                    _file.seek(index)
-                    chunk = _file.read(chunk_size)
-                    yield fileservice_pb2.FileData(username=username, filename=filename, data=chunk)
-
-                    index += chunk_size
-            else:
-                chunk = _file.read()
-                yield fileservice_pb2.FileData(username=username,
-                                               filename=filename,
-                                               data=chunk)
+    def FileList(self, username):
+        request = fileservice_pb2.UserInfo()
+        request.username = username
+        response = self.stub.FileList(request)
+        return response
 
 if __name__ == '__main__':
     curr_client = FileClient()
-    curr_client.FileDelete('sample_data.txt', 'prabaniy')
+    print(curr_client.FileList('prabaniy'))
+    #print(curr_client.FileSearch('prabaniy', 'sample_data.txt'))
+    #curr_client.UploadFile('/Users/prabaniy/Downloads/sample_data.txt', 'prabaniy')
     #curr_client.FileDelete('username', 'filename')
