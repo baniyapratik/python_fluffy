@@ -55,7 +55,7 @@ class ClusterClient():
     def getNeighbors(self):
         Logger.info("Sending Request for get neighbors..")
         try:
-            response = self.stub.getNeighbors()
+            response = self.stub.getNeighbors(cluster_pb2.getNeighborRequest())
         except Exception as err:
             response = err
         Logger.info(f"Response for get neighbors. {response}")
@@ -66,3 +66,4 @@ if __name__ == "__main__":
     cluster_client = ClusterClient()
     cluster_client.leader_initiate(ip="localhost", port=SERVER_PORT_1)
     cluster_client.add_neighbor(ip="localhost", port=SERVER_PORT_2)
+    cluster_client.getNeighbors()

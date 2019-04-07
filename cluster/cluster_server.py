@@ -84,9 +84,17 @@ class ClusterImplementation(cluster_pb2_grpc.ClusterServiceServicer):
     def getNeighbors(self, request, context):
         Logger.info("Searching for all neighbors...")
         neighbors = self.cluster.get_neighbors()
-        response =  cluster_pb2.getNeighborRequest(neighbors)
-        Logger.info(f"Sending a response. {response}")
-        return response
+        neighbor_list = cluster_pb2.getNeighborResponse();
+        for neighbor in neighbors:
+            print(neighbor)
+            neighbor_node_info = cluster_pb2.Node(ip=neighbor["ip"], port=neighbor["port"])
+            state_data = neighbor["state_data"]
+            if state_data is None:
+                state_data = ""
+            neighbor_info = cluster_pb2.NodeDetail(nodeInfo=neighbor_node_info, state=state_data, isAlive=str(neighbor["isAlive"]))
+            neighbor_list.nodes.extend([neighbor_info])
+        Logger.info(f"Sending a neighbor response.")
+        return neighbor_list
 
     def start_server(self):
         cluster_server = grpc.server(futures.ThreadPoolExecutor(max_workers=2))
