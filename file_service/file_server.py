@@ -6,29 +6,21 @@ from tqdm import tqdm
 from utils import FileHandler
 from utils.logger import Logger
 from concurrent import futures
+from threading import Thread
 from file_service.proto import fileservice_pb2, fileservice_pb2_grpc
+from cluster.proto import cluster_pb2, cluster_pb2_grpc
+import json
 
 SERVER_PORT = 50051
 CHUNK_SIZE = 4*1024
 THRESHHOLD = 3500000
 
-def call_neghbor():
-    return [
-        {
-            "ip": "127.0.0.1",
-            "port": 50052,
-        },
-        {
-            "ip": "127.0.0.1",
-            "port": 50053
-        }
-    ]
-
-
 class FileServiceImplementation(fileservice_pb2_grpc.FileServiceServicer):
 
-    def __init__(self, port):
+    def __init__(self, port, cluster_server_ip, cluster_server_port):
+        self.ip = "localhost"
         self.port = port
+        self.cluster_server_stub = cluster_pb2_grpc.ClusterServiceStub(grpc.insecure_channel(f'{cluster_server_ip}:{cluster_server_port}'))
 
     def ReplicateFile(self, request_iterator, context):
         Logger.info(f"Replicate request received. {self.port}")
@@ -101,22 +93,26 @@ class FileServiceImplementation(fileservice_pb2_grpc.FileServiceServicer):
 
     def replicate_to_neighbor(self, destination_path, user_name):
         Logger.info("Replicating the file")
-        neighbors = call_neghbor()
+        neighbors = self.get_neighbors()
+        print(neighbors)
         for neighbor in neighbors:
-            # instantiate a communication channel
-            channel = grpc.insecure_channel(
-                '{}:{}'.format(neighbor['ip'], neighbor['port']))
+            neighbor_ip = neighbor.nodeInfo.ip
+            neighbor_port = neighbor.nodeInfo.port
+            if neighbor_port != self.port:
+                # instantiate a communication channel
+                channel = grpc.insecure_channel(
+                    '{}:{}'.format(neighbor_ip, neighbor_port))
 
-            # bind the client to the server channel
-            stub = fileservice_pb2_grpc.FileServiceStub(channel)
-            Logger.info("ready for chunking to replicate")
+                # bind the client to the server channel
+                stub = fileservice_pb2_grpc.FileServiceStub(channel)
+                Logger.info("ready for chunking to replicate")
 
-            print("About to chunk")
-            chunk_iterator = FileHandler.chunk_bytes(destination_path, user_name, fileservice_pb2)
+                print("About to chunk")
+                chunk_iterator = FileHandler.chunk_bytes(destination_path, user_name, fileservice_pb2)
 
-            Logger.info("Sending " + destination_path + " to " + neighbor['ip'] + ":" + str(neighbor['port']))
-            stub.ReplicateFile(chunk_iterator)
-            Logger.info("Files Replicated")
+                Logger.info("Sending " + destination_path + " to " + neighbor_ip + ":" + neighbor_port)
+                stub.ReplicateFile(chunk_iterator)
+                Logger.info("Files Replicated")
 
     def FileDelete(self, request, context):
         Logger.info("Delete request received.")
@@ -135,20 +131,27 @@ class FileServiceImplementation(fileservice_pb2_grpc.FileServiceServicer):
 
     def delete_from_neighbor(self, filename, user_name):
         Logger.info("Deleting the file from neighbors")
-        neighbors = call_neghbor()
+        neighbors = self.get_neighbors()
         for neighbor in neighbors:
-            # instantiate a communication channel
-            channel = grpc.insecure_channel(
-                '{}:{}'.format(neighbor['ip'], neighbor['port']))
-            # bind the client to the server channel
-            stub = fileservice_pb2_grpc.FileServiceStub(channel)
-            Logger.info("ready to delete from replicate")
-            request = fileservice_pb2.FileInfo()
-            request.user_info.username = user_name
-            request.filename = filename
-            stub.FileDelete(request)
-            Logger.info("Files Deleted from Nodes.")
+            neighbor_ip = neighbor.nodeInfo.ip
+            neighbor_port = neighbor.nodeInfo.port
+            if neighbor_port != self.port:
+                # instantiate a communication channel
+                channel = grpc.insecure_channel(
+                    '{}:{}'.format(neighbor_ip, neighbor_port))
+                # bind the client to the server channel
+                stub = fileservice_pb2_grpc.FileServiceStub(channel)
+                Logger.info("ready to delete from replicate")
+                request = fileservice_pb2.FileInfo()
+                request.user_info.username = user_name
+                request.filename = filename
+                stub.FileDelete(request)
+                Logger.info("Files Deleted from Nodes.")
 
+    def get_neighbors(self):
+        # obtain list of neighbors from cluster_server
+        neighbors = self.cluster_server_stub.getNeighbors(cluster_pb2.getNeighborRequest())
+        return neighbors.nodes
 
     def DownloadFile(self, request, context):
         username = request.user_info.username
@@ -191,15 +194,22 @@ class FileServiceImplementation(fileservice_pb2_grpc.FileServiceServicer):
         file_server = grpc.server(futures.ThreadPoolExecutor(max_workers=100), options=(('grpc.max_message_length', 50 * 1024 * 1024,),('grpc.max_receive_message_length', 50 * 1024 * 1024)))
 
         # adding the services that this server can serve
-        fileservice_pb2_grpc.add_FileServiceServicer_to_server(FileServiceImplementation(self.port), file_server)
+        fileservice_pb2_grpc.add_FileServiceServicer_to_server(self, file_server)
 
         # bind the server to the described port
         file_server.add_insecure_port('[::]:{}'.format(self.port))
 
         # start the server
         file_server.start()
+        node_message = cluster_pb2.Node(ip=self.ip, port=str(self.port))
+        # try to initiate itself as leader
+        leader_response = self.cluster_server_stub.leader_initiate(node_message)
+        print(self.cluster_server_stub.getNeighbors(cluster_pb2.getNeighborRequest()))
+        if not leader_response.success:
+            # if node is not able to add itself as leader simply add itself as a neighbor to cluster_server
+            self.cluster_server_stub.add_neighbor(node_message)
 
-        print(f'File Server running on port {self.port}...')
+        print(f'File Server running on port {self.port}...\n')
 
         try:
             # Keep the program running unless keyboard interruption
@@ -211,13 +221,12 @@ class FileServiceImplementation(fileservice_pb2_grpc.FileServiceServicer):
 
 if __name__ == '__main__':
 
-    file_server_1 = FileServiceImplementation(50051)
+    file_server_1 = FileServiceImplementation(50051, "localhost", 50053)
     #file_server_1.start_server()
-    file_server_2 = FileServiceImplementation(50052)
+    file_server_2 = FileServiceImplementation(50052, "localhost", 50053)
     #file_server_2.start_server()
-    file_server_3 = FileServiceImplementation(50053)
+    file_server_3 = FileServiceImplementation(50054, "localhost", 50053)
     #file_server_3.start_server()
-    from threading import Thread
 
     thread_1 = Thread(target=file_server_1.start_server)
     thread_2 = Thread(target=file_server_2.start_server)

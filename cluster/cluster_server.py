@@ -28,7 +28,7 @@ class ClusterImplementation(cluster_pb2_grpc.ClusterServiceServicer):
         if not leader:
             self.node.setState('Leader')
             self.node.setIsAlive(True)
-            self.cluster.add_node(self.node)
+            self.cluster.add_node(Node(request.ip, request.port))
             response = cluster_pb2.ackResponse(success=True, message='Node added')
             Logger.info("Node added.")
         else:
@@ -37,23 +37,20 @@ class ClusterImplementation(cluster_pb2_grpc.ClusterServiceServicer):
         return response
 
     def add_neighbor(self, request, context):
-        ip = request.ip
-        port = request.port
-        Logger.info(f"Request received for adding neighbor. IP: {ip}, PORT: {port}")
-        if self.node.state == 'Leader':
+        neighbors = self.cluster.get_neighbors()
+        node_search = [node for node in neighbors if node['ip'] == request.ip and node['port'] == request.port]
+        if not node_search:
+            ip = request.ip
+            port = request.port
+            Logger.info(f"Request received for adding neighbor. IP: {ip}, PORT: {port}")
             neighbor = self.cluster.add_neighbor(ip, port)
             neighbor.state = 'Follower'
-            is_alive = self.hearbeat_client.send_isalive(dest_ip=ip, dest_port=port)
-            if is_alive:
-                neighbor.state = True
-                neighbor.state_data = is_alive
-            else:
-                neighbor.state_data = None
-
+            neighbor.state = True
+            neighbor.state_data = ""
             response = cluster_pb2.ackResponse(success=True, message='Node added')
         else:
-            response = cluster_pb2.ackResponse(success=False,
-                                       message='Current node is not a leader. Only leader can add neighbors.')
+            response = cluster_pb2.ackResponse(success=False, message='Node already exists')
+
         Logger.info(f"Sending a response. {response}")
         return response
 
@@ -84,17 +81,19 @@ class ClusterImplementation(cluster_pb2_grpc.ClusterServiceServicer):
     def getNeighbors(self, request, context):
         Logger.info("Searching for all neighbors...")
         neighbors = self.cluster.get_neighbors()
-        neighbor_list = cluster_pb2.getNeighborResponse();
+        neighbors_list = []
+        neighbor_list_response = cluster_pb2.getNeighborResponse();
         for neighbor in neighbors:
-            print(neighbor)
             neighbor_node_info = cluster_pb2.Node(ip=neighbor["ip"], port=neighbor["port"])
             state_data = neighbor["state_data"]
             if state_data is None:
                 state_data = ""
             neighbor_info = cluster_pb2.NodeDetail(nodeInfo=neighbor_node_info, state=state_data, isAlive=str(neighbor["isAlive"]))
-            neighbor_list.nodes.extend([neighbor_info])
+            neighbors_list.append(neighbor_info)
+
+        neighbor_list_response.nodes.extend(neighbors_list)
         Logger.info(f"Sending a neighbor response.")
-        return neighbor_list
+        return neighbor_list_response
 
     def start_server(self):
         cluster_server = grpc.server(futures.ThreadPoolExecutor(max_workers=2))
