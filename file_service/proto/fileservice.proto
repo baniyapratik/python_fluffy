@@ -37,6 +37,11 @@ message StatsResponse {
     float swap_memory = 2;
 }
 
+message UsersRequest {}
+
+message UsersResponse {
+    string users_list = 1;
+}
 service FileService {
     rpc DownloadFile (FileInfo) returns (stream FileData) {}
     rpc FileSearch (FileInfo) returns (ack) {}
@@ -47,4 +52,5 @@ service FileService {
     rpc UpdateFile (stream FileData) returns (ack) {}
     rpc Heartbeat (HeartbeatRequest) returns (HeartbeatResponse) {}
     rpc Stats (StatsRequest) returns (StatsResponse) {}
+    rpc GetUsers (UsersRequest) returns (UsersResponse) {}
 }

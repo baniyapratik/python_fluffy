@@ -73,6 +73,15 @@ class FileServiceImplementation(fileservice_pb2_grpc.FileServiceServicer):
         Logger.info("File list request complete.")
         return fileservice_pb2.FileListResponse(filenames=str(onlyfiles))
 
+    def GetUsers(self, request, context):
+        Logger.info("Users request received.")
+        directory_path = f"file_data_{self.port}"
+        # get list of directories in top level folder which is simply the list of user names as each user has own directory
+        users = [f for f in os.listdir(directory_path) if os.path.isfile(os.path.join(directory_path, f)) is False]
+        print(users)
+        Logger.info("Users request complete.")
+        return fileservice_pb2.UsersResponse(users_list=str(users))
+
     def UploadFile(self, request_iterator, context):
         Logger.info("Upload request received.")
         temp_file = "temp"

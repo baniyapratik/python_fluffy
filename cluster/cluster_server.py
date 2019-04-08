@@ -114,7 +114,7 @@ class ClusterImplementation(cluster_pb2_grpc.ClusterServiceServicer):
         Logger.info("Searching for all neighbors...")
         neighbors = self.cluster.get_neighbors()
         neighbors_list = []
-        neighbor_list_response = cluster_pb2.getNeighborResponse();
+        neighbor_list_response = cluster_pb2.getNeighborResponse()
         for neighbor in neighbors:
             neighbor_node_info = cluster_pb2.Node(ip=neighbor["ip"], port=neighbor["port"])
             state_data = neighbor["state_data"]

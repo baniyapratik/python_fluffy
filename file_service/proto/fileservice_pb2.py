@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\x11\x66ileservice.proto\"<\n\x08\x46ileData\x12\x10\n\x08username\x18\x01 \x01(\t\x12\x10\n\x08\x66ilename\x18\x02 \x01(\t\x12\x0c\n\x04\x64\x61ta\x18\x03 \x01(\x0c\"\'\n\x03\x61\x63k\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x0f\n\x07message\x18\x02 \x01(\t\":\n\x08\x46ileInfo\x12\x1c\n\tuser_info\x18\x01 \x01(\x0b\x32\t.UserInfo\x12\x10\n\x08\x66ilename\x18\x02 \x01(\t\"\x1c\n\x08UserInfo\x12\x10\n\x08username\x18\x01 \x01(\t\"%\n\x10\x46ileListResponse\x12\x11\n\tfilenames\x18\x01 \x01(\t\"\x12\n\x10HeartbeatRequest\"%\n\x11HeartbeatResponse\x12\x10\n\x08response\x18\x01 \x01(\t\"\x0e\n\x0cStatsRequest\"5\n\rStatsResponse\x12\x0f\n\x07\x63puutil\x18\x01 \x01(\x02\x12\x13\n\x0bswap_memory\x18\x02 \x01(\x02\x32\xf1\x02\n\x0b\x46ileService\x12(\n\x0c\x44ownloadFile\x12\t.FileInfo\x1a\t.FileData\"\x00\x30\x01\x12\x1f\n\nFileSearch\x12\t.FileInfo\x1a\x04.ack\"\x00\x12*\n\x08\x46ileList\x12\t.UserInfo\x1a\x11.FileListResponse\"\x00\x12$\n\rReplicateFile\x12\t.FileData\x1a\x04.ack\"\x00(\x01\x12!\n\nUploadFile\x12\t.FileData\x1a\x04.ack\"\x00(\x01\x12\x1f\n\nFileDelete\x12\t.FileInfo\x1a\x04.ack\"\x00\x12!\n\nUpdateFile\x12\t.FileData\x1a\x04.ack\"\x00(\x01\x12\x34\n\tHeartbeat\x12\x11.HeartbeatRequest\x1a\x12.HeartbeatResponse\"\x00\x12(\n\x05Stats\x12\r.StatsRequest\x1a\x0e.StatsResponse\"\x00\x62\x06proto3')
+  serialized_pb=_b('\n\x11\x66ileservice.proto\"<\n\x08\x46ileData\x12\x10\n\x08username\x18\x01 \x01(\t\x12\x10\n\x08\x66ilename\x18\x02 \x01(\t\x12\x0c\n\x04\x64\x61ta\x18\x03 \x01(\x0c\"\'\n\x03\x61\x63k\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x0f\n\x07message\x18\x02 \x01(\t\":\n\x08\x46ileInfo\x12\x1c\n\tuser_info\x18\x01 \x01(\x0b\x32\t.UserInfo\x12\x10\n\x08\x66ilename\x18\x02 \x01(\t\"\x1c\n\x08UserInfo\x12\x10\n\x08username\x18\x01 \x01(\t\"%\n\x10\x46ileListResponse\x12\x11\n\tfilenames\x18\x01 \x01(\t\"\x12\n\x10HeartbeatRequest\"%\n\x11HeartbeatResponse\x12\x10\n\x08response\x18\x01 \x01(\t\"\x0e\n\x0cStatsRequest\"5\n\rStatsResponse\x12\x0f\n\x07\x63puutil\x18\x01 \x01(\x02\x12\x13\n\x0bswap_memory\x18\x02 \x01(\x02\"\x0e\n\x0cUsersRequest\"#\n\rUsersResponse\x12\x12\n\nusers_list\x18\x01 \x01(\t2\x9e\x03\n\x0b\x46ileService\x12(\n\x0c\x44ownloadFile\x12\t.FileInfo\x1a\t.FileData\"\x00\x30\x01\x12\x1f\n\nFileSearch\x12\t.FileInfo\x1a\x04.ack\"\x00\x12*\n\x08\x46ileList\x12\t.UserInfo\x1a\x11.FileListResponse\"\x00\x12$\n\rReplicateFile\x12\t.FileData\x1a\x04.ack\"\x00(\x01\x12!\n\nUploadFile\x12\t.FileData\x1a\x04.ack\"\x00(\x01\x12\x1f\n\nFileDelete\x12\t.FileInfo\x1a\x04.ack\"\x00\x12!\n\nUpdateFile\x12\t.FileData\x1a\x04.ack\"\x00(\x01\x12\x34\n\tHeartbeat\x12\x11.HeartbeatRequest\x1a\x12.HeartbeatResponse\"\x00\x12(\n\x05Stats\x12\r.StatsRequest\x1a\x0e.StatsResponse\"\x00\x12+\n\x08GetUsers\x12\r.UsersRequest\x1a\x0e.UsersResponse\"\x00\x62\x06proto3')
 )
 
 
@@ -324,6 +324,61 @@ _STATSRESPONSE = _descriptor.Descriptor(
   serialized_end=381,
 )
 
+
+_USERSREQUEST = _descriptor.Descriptor(
+  name='UsersRequest',
+  full_name='UsersRequest',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=383,
+  serialized_end=397,
+)
+
+
+_USERSRESPONSE = _descriptor.Descriptor(
+  name='UsersResponse',
+  full_name='UsersResponse',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+    _descriptor.FieldDescriptor(
+      name='users_list', full_name='UsersResponse.users_list', index=0,
+      number=1, type=9, cpp_type=9, label=1,
+      has_default_value=False, default_value=_b("").decode('utf-8'),
+      message_type=None, enum_type=None, containing_type=None,
+      is_extension=False, extension_scope=None,
+      serialized_options=None, file=DESCRIPTOR),
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=399,
+  serialized_end=434,
+)
+
 _FILEINFO.fields_by_name['user_info'].message_type = _USERINFO
 DESCRIPTOR.message_types_by_name['FileData'] = _FILEDATA
 DESCRIPTOR.message_types_by_name['ack'] = _ACK
@@ -334,6 +389,8 @@ DESCRIPTOR.message_types_by_name['HeartbeatRequest'] = _HEARTBEATREQUEST
 DESCRIPTOR.message_types_by_name['HeartbeatResponse'] = _HEARTBEATRESPONSE
 DESCRIPTOR.message_types_by_name['StatsRequest'] = _STATSREQUEST
 DESCRIPTOR.message_types_by_name['StatsResponse'] = _STATSRESPONSE
+DESCRIPTOR.message_types_by_name['UsersRequest'] = _USERSREQUEST
+DESCRIPTOR.message_types_by_name['UsersResponse'] = _USERSRESPONSE
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 FileData = _reflection.GeneratedProtocolMessageType('FileData', (_message.Message,), dict(
@@ -399,6 +456,20 @@ StatsResponse = _reflection.GeneratedProtocolMessageType('StatsResponse', (_mess
   ))
 _sym_db.RegisterMessage(StatsResponse)
 
+UsersRequest = _reflection.GeneratedProtocolMessageType('UsersRequest', (_message.Message,), dict(
+  DESCRIPTOR = _USERSREQUEST,
+  __module__ = 'fileservice_pb2'
+  # @@protoc_insertion_point(class_scope:UsersRequest)
+  ))
+_sym_db.RegisterMessage(UsersRequest)
+
+UsersResponse = _reflection.GeneratedProtocolMessageType('UsersResponse', (_message.Message,), dict(
+  DESCRIPTOR = _USERSRESPONSE,
+  __module__ = 'fileservice_pb2'
+  # @@protoc_insertion_point(class_scope:UsersResponse)
+  ))
+_sym_db.RegisterMessage(UsersResponse)
+
 
 
 _FILESERVICE = _descriptor.ServiceDescriptor(
@@ -407,8 +478,8 @@ _FILESERVICE = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   serialized_options=None,
-  serialized_start=384,
-  serialized_end=753,
+  serialized_start=437,
+  serialized_end=851,
   methods=[
   _descriptor.MethodDescriptor(
     name='DownloadFile',
@@ -489,6 +560,15 @@ _FILESERVICE = _descriptor.ServiceDescriptor(
     containing_service=None,
     input_type=_STATSREQUEST,
     output_type=_STATSRESPONSE,
+    serialized_options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='GetUsers',
+    full_name='FileService.GetUsers',
+    index=9,
+    containing_service=None,
+    input_type=_USERSREQUEST,
+    output_type=_USERSRESPONSE,
     serialized_options=None,
   ),
 ])

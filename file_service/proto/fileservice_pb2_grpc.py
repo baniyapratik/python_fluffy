@@ -59,6 +59,11 @@ class FileServiceStub(object):
         request_serializer=fileservice__pb2.StatsRequest.SerializeToString,
         response_deserializer=fileservice__pb2.StatsResponse.FromString,
         )
+    self.GetUsers = channel.unary_unary(
+        '/FileService/GetUsers',
+        request_serializer=fileservice__pb2.UsersRequest.SerializeToString,
+        response_deserializer=fileservice__pb2.UsersResponse.FromString,
+        )
 
 
 class FileServiceServicer(object):
@@ -128,6 +133,13 @@ class FileServiceServicer(object):
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
+  def GetUsers(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
 
 def add_FileServiceServicer_to_server(servicer, server):
   rpc_method_handlers = {
@@ -175,6 +187,11 @@ def add_FileServiceServicer_to_server(servicer, server):
           servicer.Stats,
           request_deserializer=fileservice__pb2.StatsRequest.FromString,
           response_serializer=fileservice__pb2.StatsResponse.SerializeToString,
+      ),
+      'GetUsers': grpc.unary_unary_rpc_method_handler(
+          servicer.GetUsers,
+          request_deserializer=fileservice__pb2.UsersRequest.FromString,
+          response_serializer=fileservice__pb2.UsersResponse.SerializeToString,
       ),
   }
   generic_handler = grpc.method_handlers_generic_handler(

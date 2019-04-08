@@ -116,13 +116,25 @@ class FileClient(object):
         response = read_node_stub.FileList(request)
         return response
 
+    def UsersList(self):
+        read_node = self.cluster_stub.getReadNode(cluster_pb2.getReadNodeRequest())
+        read_node_channel = grpc.insecure_channel(
+            '{}:{}'.format(read_node.ip, read_node.port))
+
+        read_node_stub = fileservice_pb2_grpc.FileServiceStub(read_node_channel)
+
+        request = fileservice_pb2.UsersRequest()
+        response = read_node_stub.GetUsers(request)
+        return response
+
 if __name__ == '__main__':
     curr_client = FileClient()
     #curr_client.UploadFile('1', 'ben')
     #curr_client.UploadFile('1', 'prabaniy')
     #curr_client.UploadFile('1_2', 'ben')
     #curr_client.UploadFile('1_2', 'prabaniy')
-    curr_client.DownloadFile("1_2", "ben")
+    #curr_client.DownloadFile("1_2", "ben")
+    print(curr_client.UsersList())
     #print(curr_client.FileList('prabaniy'))
     #print(curr_client.FileSearch('prabaniy', '1_2'))
     #curr_client.FileDelete('1', 'ben')
