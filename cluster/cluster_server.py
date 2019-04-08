@@ -1,5 +1,6 @@
 import grpc
 import time
+import random
 from utils.logger import Logger
 from concurrent import futures
 from cluster.proto import cluster_pb2, cluster_pb2_grpc
@@ -89,8 +90,8 @@ class ClusterImplementation(cluster_pb2_grpc.ClusterServiceServicer):
         neighbors = self.cluster.get_neighbors()
         node_list = [node for node in neighbors if node['isAlive'] == 'True']
         least_score = None
-        read_node_ip = -1
-        read_node_port = -1
+        read_node_ip = "-1"
+        read_node_port = "-1"
         for node in node_list:
             node_ip = node["ip"]
             node_port = node["port"]
@@ -161,6 +162,13 @@ class ClusterImplementation(cluster_pb2_grpc.ClusterServiceServicer):
                     Logger.info("Node is not alive")
 
             node_alive_list = [node for node in neighbors if node.getIsAlive() == True]
+            if len(node_alive_list) > 0:
+                new_leader_node = random.choice(node_alive_list)
+                for neighbor in neighbors:
+                    if neighbor.ip == new_leader_node.ip and neighbor.port == new_leader_node.port:
+                        neighbor.setState("Leader")
+                        break
+
 
 
     def start_server(self):

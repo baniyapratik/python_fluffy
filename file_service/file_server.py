@@ -4,6 +4,7 @@ import time
 import math
 import sys
 import psutil
+import ast
 from tqdm import tqdm
 from utils import FileHandler
 from utils.logger import Logger
@@ -76,10 +77,13 @@ class FileServiceImplementation(fileservice_pb2_grpc.FileServiceServicer):
     def GetUsers(self, request, context):
         Logger.info("Users request received.")
         directory_path = f"file_data_{self.port}"
-        # get list of directories in top level folder which is simply the list of user names as each user has own directory
-        users = [f for f in os.listdir(directory_path) if os.path.isfile(os.path.join(directory_path, f)) is False]
-        print(users)
-        Logger.info("Users request complete.")
+        if os.path.exists(directory_path):
+            # get list of directories in top level folder which is simply the list of user names as each user has own directory
+            users = [f for f in os.listdir(directory_path) if os.path.isfile(os.path.join(directory_path, f)) is False]
+            print(users)
+            Logger.info("Users request complete.")
+        else:
+            users = []
         return fileservice_pb2.UsersResponse(users_list=str(users))
 
     def UploadFile(self, request_iterator, context):
@@ -153,7 +157,7 @@ class FileServiceImplementation(fileservice_pb2_grpc.FileServiceServicer):
         for neighbor in neighbors:
             neighbor_ip = neighbor.nodeInfo.ip
             neighbor_port = neighbor.nodeInfo.port
-            if int(neighbor_port) != self.port:
+            if int(neighbor_port) != self.port and neighbor.isAlive:
                 # instantiate a communication channel
                 channel = grpc.insecure_channel(
                     '{}:{}'.format(neighbor_ip, neighbor_port))
@@ -212,6 +216,50 @@ class FileServiceImplementation(fileservice_pb2_grpc.FileServiceServicer):
         swap_memory_data = psutil.swap_memory().percent
         return fileservice_pb2.StatsResponse(cpuutil=cpu_data, swap_memory=swap_memory_data)
 
+    def initiate_data(self):
+        # get read_node to get files from
+        read_node = self.cluster_server_stub.getReadNode(cluster_pb2.getReadNodeRequest())
+
+        if read_node.ip != "-1":
+            # nodes exist, so get list of users
+
+            read_node_channel = grpc.insecure_channel(
+                '{}:{}'.format(read_node.ip, read_node.port))
+            read_node_stub = fileservice_pb2_grpc.FileServiceStub(read_node_channel)
+
+            users = read_node_stub.GetUsers(fileservice_pb2.UsersRequest())
+            users_list = ast.literal_eval(users.users_list)
+            print(users_list)
+
+            # get uploaded files node may have missed out on from other nodes, also delete old files node may have
+            for user in users_list:
+                # obtain list of files for user
+                users_files = read_node_stub.FileList(fileservice_pb2.UserInfo(username=user))
+                print(users_files)
+                users_files_list = ast.literal_eval(users_files.filenames)
+                destination_path = f"file_data_{self.port}/{user}"
+                # download needed files
+                for users_file in users_files_list:
+                    if not os.path.exists(destination_path):
+                        os.makedirs(destination_path)
+
+                    f = open(f"{destination_path}/{users_file}", 'bw+')
+                    try:
+                        for response in read_node_stub.DownloadFile(fileservice_pb2.FileInfo(user_info=fileservice_pb2.UserInfo(username=user), filename=users_file)):
+                            chunk = response.data
+                            f.write(chunk)
+                    except grpc.RpcError as err:
+                        Logger.warning(f"GRPC error. {err}")
+                    f.close()
+
+                # remove old file not found on neighbor node
+                if os.path.exists(destination_path):
+                    for filename in os.listdir(destination_path):
+                        if filename not in users_files_list:
+                            os.remove(f"{destination_path}/{filename}")
+
+
+
     def start_server(self):
         """
         Function which actually starts the gRPC server, and preps
@@ -229,6 +277,8 @@ class FileServiceImplementation(fileservice_pb2_grpc.FileServiceServicer):
         # start the server
         file_server.start()
         node_message = cluster_pb2.Node(ip=self.ip, port=str(self.port))
+
+        self.initiate_data()
         # try to initiate itself as leader
         leader_response = self.cluster_server_stub.leader_initiate(node_message)
         print(self.cluster_server_stub.getNeighbors(cluster_pb2.getNeighborRequest()))
