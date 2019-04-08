@@ -24,11 +24,14 @@ class Cluster:
         my_neighbors = [self.node_json(neighbor) for neighbor in self.neighbors]
         return my_neighbors
 
+    def get_neighbors_objects(self):
+        return self.neighbors
+
     def node_json(self, node):
         return {
             "ip": node.ip,
             "port": node.port,
             "state": node.state,
             "state_data": node.state_data,
-            "isAlive": 'True'
+            "isAlive": str(node.isAlive),
         }

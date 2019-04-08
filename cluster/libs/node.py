@@ -16,6 +16,9 @@ class Node:
     def setState(self, state):
         self.state = state
 
+    def getState(self):
+        return self.state
+
     def getPort(self):
         return self.port
 

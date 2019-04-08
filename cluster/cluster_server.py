@@ -31,8 +31,8 @@ class ClusterImplementation(cluster_pb2_grpc.ClusterServiceServicer):
         if not leader:
             leader_node = Node(request.ip, request.port)
             leader_node.setState("Leader")
+            leader_node.isAlive = True
             node = self.cluster.add_node(leader_node)
-            node['state'] = 'Leader'
             response = cluster_pb2.ackResponse(success=True, message='Node added')
             Logger.info("Node added.")
         else:
@@ -49,7 +49,6 @@ class ClusterImplementation(cluster_pb2_grpc.ClusterServiceServicer):
             Logger.info(f"Request received for adding neighbor. IP: {ip}, PORT: {port}")
             neighbor = self.cluster.add_neighbor(ip, port)
             neighbor.state = 'Follower'
-            neighbor.state = True
             neighbor.state_data = ""
             response = cluster_pb2.ackResponse(success=True, message='Node added')
         else:
@@ -81,9 +80,6 @@ class ClusterImplementation(cluster_pb2_grpc.ClusterServiceServicer):
         leader = node_list[0]
         ip = leader['ip']
         port_number = leader['port']
-        print(leader)
-        print(leader['ip'])
-        print(leader['port'])
         response = cluster_pb2.Node(ip=ip, port=port_number)
         Logger.info(f"Sending a response. {response}")
         return response
@@ -98,7 +94,7 @@ class ClusterImplementation(cluster_pb2_grpc.ClusterServiceServicer):
             state_data = neighbor["state_data"]
             if state_data is None:
                 state_data = ""
-            neighbor_info = cluster_pb2.NodeDetail(nodeInfo=neighbor_node_info, state=state_data, isAlive=str(neighbor["isAlive"]))
+            neighbor_info = cluster_pb2.NodeDetail(nodeInfo=neighbor_node_info, state=state_data, isAlive=neighbor["isAlive"])
             neighbors_list.append(neighbor_info)
 
         neighbor_list_response.nodes.extend(neighbors_list)
@@ -109,18 +105,18 @@ class ClusterImplementation(cluster_pb2_grpc.ClusterServiceServicer):
 
         while True:
             # get neighbors[] from cluster
-            neighbors = self.cluster.get_neighbors()
+            neighbors = self.cluster.get_neighbors_objects()
 
             # sleep for random time between 2-13 seconds
             time.sleep(randrange(1, 4))
             print("We reached the heartbeat entry")
 
             for neighbor in neighbors:
-                print(neighbor)
+                print(self.cluster.node_json(neighbor))
                 #neighbor_ip = neighbor.nodeInfo.ip
-                neighbor_ip = neighbor['ip']
+                neighbor_ip = neighbor.ip
                 #neighbor_port = neighbor.nodeInfo.port
-                neighbor_port = neighbor['port']
+                neighbor_port = neighbor.port
 
                 # instantiate a communication channel
                 channel = grpc.insecure_channel(
@@ -130,24 +126,15 @@ class ClusterImplementation(cluster_pb2_grpc.ClusterServiceServicer):
                 stub = fileservice_pb2_grpc.FileServiceStub(channel)
                 try:
                     stub.Heartbeat(fileservice_pb2.HeartbeatRequest())
-                    #neighbor.nodeInfo.isAlive = True
-                    neighbor['isAlive'] = 'True'
+                    neighbor.setIsAlive(True)
                     Logger.info("Node is alive")
                 except:
-                    #neighbor.nodeInfo.isAlive = False
-                    neighbor['isAlive'] = False
+                    neighbor.setIsAlive(False)
+                    if neighbor.getState() == "Leader":
+                        neighbor.setState("Follower")
                     Logger.info("Node is not alive")
 
-            leader_list = [node for node in neighbors if node['state'] == 'Leader']
-            if len(neighbors) > 0:
-                if len(leader_list) == 0 or leader_list[0]['isAlive'] == 'False':
-                    #leader_list[0]['state'] = 'Follower'
-                    old_leader_ip = leader_list[0]['ip']
-                    old_leader_port = leader_list[0]['port']
-                    for neighbor in neighbors:
-                        if(old_leader_ip == neighbor['ip'] and old_leader_port == neighbor['port']):
-                            neighbor['state'] = 'Follower'
-
+            node_alive_list = [node for node in neighbors if node.getIsAlive() == True]
 
 
     def start_server(self):
