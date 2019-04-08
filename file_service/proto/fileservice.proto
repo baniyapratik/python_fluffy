@@ -24,12 +24,19 @@ message FileListResponse {
 	string filenames = 1;
 }
 
+message HeartbeatRequest {}
+
+message HeartbeatResponse {
+    string response = 1;
+}
+
 service FileService {
-	rpc DownloadFile (FileInfo) returns (stream FileData) {}
-	rpc FileSearch (FileInfo) returns (ack) {}
-	rpc FileList (UserInfo) returns (FileListResponse) {}
+    rpc DownloadFile (FileInfo) returns (stream FileData) {}
+    rpc FileSearch (FileInfo) returns (ack) {}
+    rpc FileList (UserInfo) returns (FileListResponse) {}
     rpc ReplicateFile (stream FileData) returns (ack) {}
     rpc UploadFile (stream FileData) returns (ack) {}
     rpc FileDelete (FileInfo) returns (ack) {}
     rpc UpdateFile (stream FileData) returns (ack) {}
+    rpc Heartbeat (HeartbeatRequest) returns (HeartbeatResponse) {}
 }

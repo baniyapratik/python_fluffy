@@ -193,6 +193,10 @@ class FileServiceImplementation(fileservice_pb2_grpc.FileServiceServicer):
                                                    data=chunk)
         Logger.info(f"Chunking complete")
 
+    def Heartbeat(self, request, context):
+        Logger.info("got heartbeat")
+        return fileservice_pb2.HeartbeatResponse(response="ok")
+
     def start_server(self):
         """
         Function which actually starts the gRPC server, and preps

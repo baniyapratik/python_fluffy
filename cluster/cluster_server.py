@@ -5,6 +5,9 @@ from concurrent import futures
 from cluster.proto import cluster_pb2, cluster_pb2_grpc
 from cluster.libs.cluster import Cluster
 from cluster.libs.node import Node
+from random import randrange
+from threading import Thread
+from file_service.proto import fileservice_pb2, fileservice_pb2_grpc
 
 from monitor.monit_client import HeartbeatClient
 
@@ -102,6 +105,39 @@ class ClusterImplementation(cluster_pb2_grpc.ClusterServiceServicer):
         Logger.info(f"Sending a neighbor response.")
         return neighbor_list_response
 
+    def neighborHeartbeat(self):
+
+        while True:
+            # get neighbors[] from cluster
+            neighbors = self.cluster.get_neighbors()
+            # sleep for random time between 2-13 seconds
+            time.sleep(randrange(1, 4))
+            print("We reached the heartbeat entry")
+
+            for neighbor in neighbors:
+                print(neighbor)
+                #neighbor_ip = neighbor.nodeInfo.ip
+                neighbor_ip = neighbor['ip']
+                #neighbor_port = neighbor.nodeInfo.port
+                neighbor_port = neighbor['port']
+
+                # instantiate a communication channel
+                channel = grpc.insecure_channel(
+                    '{}:{}'.format(neighbor_ip, neighbor_port))
+
+                # bind the client to the server channel
+                stub = fileservice_pb2_grpc.FileServiceStub(channel)
+                try:
+                    stub.Heartbeat(fileservice_pb2.HeartbeatRequest())
+                    #neighbor.nodeInfo.isAlive = True
+                    neighbor['isAlive'] = True
+                    Logger.info("Node is alive")
+                except:
+                    #neighbor.nodeInfo.isAlive = False
+                    neighbor['isAlive'] = False
+                    Logger.info("Node is not alive")
+
+
     def start_server(self):
         cluster_server = grpc.server(futures.ThreadPoolExecutor(max_workers=2))
 
@@ -111,8 +147,14 @@ class ClusterImplementation(cluster_pb2_grpc.ClusterServiceServicer):
         # bind the server to the described port
         cluster_server.add_insecure_port(f'[::]:{SERVER_PORT}')
 
+
+
         # start the server
         cluster_server.start()
+
+        thread_1 = Thread(target=self.neighborHeartbeat)
+        thread_1.start()
+
 
         Logger.info(f'Cluster Server running on port {SERVER_PORT}...')
 

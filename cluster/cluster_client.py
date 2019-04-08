@@ -66,4 +66,4 @@ if __name__ == "__main__":
     cluster_client = ClusterClient()
     cluster_client.leader_initiate(ip="localhost", port=SERVER_PORT_1)
     cluster_client.add_neighbor(ip="localhost", port=SERVER_PORT_2)
-    cluster_client.getNeighbors()
+    #cluster_client.getNeighbors()
