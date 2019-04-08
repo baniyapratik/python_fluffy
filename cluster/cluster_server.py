@@ -110,6 +110,7 @@ class ClusterImplementation(cluster_pb2_grpc.ClusterServiceServicer):
         while True:
             # get neighbors[] from cluster
             neighbors = self.cluster.get_neighbors()
+
             # sleep for random time between 2-13 seconds
             time.sleep(randrange(1, 4))
             print("We reached the heartbeat entry")
@@ -130,12 +131,23 @@ class ClusterImplementation(cluster_pb2_grpc.ClusterServiceServicer):
                 try:
                     stub.Heartbeat(fileservice_pb2.HeartbeatRequest())
                     #neighbor.nodeInfo.isAlive = True
-                    neighbor['isAlive'] = True
+                    neighbor['isAlive'] = 'True'
                     Logger.info("Node is alive")
                 except:
                     #neighbor.nodeInfo.isAlive = False
                     neighbor['isAlive'] = False
                     Logger.info("Node is not alive")
+
+            leader_list = [node for node in neighbors if node['state'] == 'Leader']
+            if len(neighbors) > 0:
+                if len(leader_list) == 0 or leader_list[0]['isAlive'] == 'False':
+                    #leader_list[0]['state'] = 'Follower'
+                    old_leader_ip = leader_list[0]['ip']
+                    old_leader_port = leader_list[0]['port']
+                    for neighbor in neighbors:
+                        if(old_leader_ip == neighbor['ip'] and old_leader_port == neighbor['port']):
+                            neighbor['state'] = 'Follower'
+
 
 
     def start_server(self):
