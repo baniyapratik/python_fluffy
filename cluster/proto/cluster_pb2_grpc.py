@@ -39,6 +39,11 @@ class ClusterServiceStub(object):
         request_serializer=cluster__pb2.getLeaderRequest.SerializeToString,
         response_deserializer=cluster__pb2.Node.FromString,
         )
+    self.getReadNode = channel.unary_unary(
+        '/ClusterService/getReadNode',
+        request_serializer=cluster__pb2.getReadNodeRequest.SerializeToString,
+        response_deserializer=cluster__pb2.Node.FromString,
+        )
 
 
 class ClusterServiceServicer(object):
@@ -80,6 +85,13 @@ class ClusterServiceServicer(object):
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
 
+  def getReadNode(self, request, context):
+    # missing associated documentation comment in .proto file
+    pass
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
 
 def add_ClusterServiceServicer_to_server(servicer, server):
   rpc_method_handlers = {
@@ -106,6 +118,11 @@ def add_ClusterServiceServicer_to_server(servicer, server):
       'getLeader': grpc.unary_unary_rpc_method_handler(
           servicer.getLeader,
           request_deserializer=cluster__pb2.getLeaderRequest.FromString,
+          response_serializer=cluster__pb2.Node.SerializeToString,
+      ),
+      'getReadNode': grpc.unary_unary_rpc_method_handler(
+          servicer.getReadNode,
+          request_deserializer=cluster__pb2.getReadNodeRequest.FromString,
           response_serializer=cluster__pb2.Node.SerializeToString,
       ),
   }

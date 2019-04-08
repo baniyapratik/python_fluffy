@@ -30,6 +30,13 @@ message HeartbeatResponse {
     string response = 1;
 }
 
+message StatsRequest {}
+
+message StatsResponse {
+    float cpuutil = 1;
+    float swap_memory = 2;
+}
+
 service FileService {
     rpc DownloadFile (FileInfo) returns (stream FileData) {}
     rpc FileSearch (FileInfo) returns (ack) {}
@@ -39,4 +46,5 @@ service FileService {
     rpc FileDelete (FileInfo) returns (ack) {}
     rpc UpdateFile (stream FileData) returns (ack) {}
     rpc Heartbeat (HeartbeatRequest) returns (HeartbeatResponse) {}
+    rpc Stats (StatsRequest) returns (StatsResponse) {}
 }

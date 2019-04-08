@@ -84,6 +84,32 @@ class ClusterImplementation(cluster_pb2_grpc.ClusterServiceServicer):
         Logger.info(f"Sending a response. {response}")
         return response
 
+    def getReadNode(self, request, context):
+        Logger.info("Searching for a Read Node...")
+        neighbors = self.cluster.get_neighbors()
+        node_list = [node for node in neighbors if node['isAlive'] == 'True']
+        least_score = None
+        read_node_ip = -1
+        read_node_port = -1
+        for node in node_list:
+            node_ip = node["ip"]
+            node_port = node["port"]
+            # instantiate a communication channel
+            channel = grpc.insecure_channel(
+                '{}:{}'.format(node_ip, node_port))
+            # bind the client to the server channel
+            stub = fileservice_pb2_grpc.FileServiceStub(channel)
+            stats_response = stub.Stats(fileservice_pb2.StatsRequest())
+            # find least cpu utilization, will be selected as read node for client
+            new_score = stats_response.cpuutil
+            if least_score is None or new_score < least_score:
+                read_node_ip = node_ip
+                read_node_port = node_port
+
+        response = cluster_pb2.Node(ip=read_node_ip, port=read_node_port)
+        Logger.info(f"Sending a response. {response}")
+        return response
+
     def getNeighbors(self, request, context):
         Logger.info("Searching for all neighbors...")
         neighbors = self.cluster.get_neighbors()
@@ -145,8 +171,6 @@ class ClusterImplementation(cluster_pb2_grpc.ClusterServiceServicer):
 
         # bind the server to the described port
         cluster_server.add_insecure_port(f'[::]:{SERVER_PORT}')
-
-
 
         # start the server
         cluster_server.start()

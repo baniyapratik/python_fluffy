@@ -24,12 +24,15 @@ message getNeighborResponse {
     repeated NodeDetail nodes = 1;
 }
 
+message getReadNodeRequest {}
+
 service ClusterService {
   rpc leader_initiate (Node) returns (ackResponse) {}
   rpc add_neighbor (Node) returns (ackResponse) {}
   rpc remove_neighbor (Node) returns (ackResponse) {}
   rpc getNeighbors (getNeighborRequest) returns (getNeighborResponse) {}
   rpc getLeader (getLeaderRequest) returns (Node) {}
+  rpc getReadNode (getReadNodeRequest) returns (Node) {}
 }
 
 

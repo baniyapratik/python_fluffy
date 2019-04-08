@@ -3,6 +3,7 @@ import grpc
 import time
 import math
 import sys
+import psutil
 from tqdm import tqdm
 from utils import FileHandler
 from utils.logger import Logger
@@ -196,6 +197,11 @@ class FileServiceImplementation(fileservice_pb2_grpc.FileServiceServicer):
     def Heartbeat(self, request, context):
         Logger.info("got heartbeat")
         return fileservice_pb2.HeartbeatResponse(response="ok")
+
+    def Stats(self, request, context):
+        cpu_data = psutil.cpu_percent()
+        swap_memory_data = psutil.swap_memory().percent
+        return fileservice_pb2.StatsResponse(cpuutil=cpu_data, swap_memory=swap_memory_data)
 
     def start_server(self):
         """

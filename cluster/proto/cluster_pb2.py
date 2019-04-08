@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   package='',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\rcluster.proto\" \n\x04Node\x12\n\n\x02ip\x18\x01 \x01(\t\x12\x0c\n\x04port\x18\x02 \x01(\t\"/\n\x0b\x61\x63kResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x0f\n\x07message\x18\x02 \x01(\t\"E\n\nNodeDetail\x12\x17\n\x08nodeInfo\x18\x01 \x01(\x0b\x32\x05.Node\x12\r\n\x05state\x18\x02 \x01(\t\x12\x0f\n\x07isAlive\x18\x03 \x01(\t\"\x14\n\x12getNeighborRequest\"\x12\n\x10getLeaderRequest\"1\n\x13getNeighborResponse\x12\x1a\n\x05nodes\x18\x01 \x03(\x0b\x32\x0b.NodeDetail2\xf1\x01\n\x0e\x43lusterService\x12(\n\x0fleader_initiate\x12\x05.Node\x1a\x0c.ackResponse\"\x00\x12%\n\x0c\x61\x64\x64_neighbor\x12\x05.Node\x1a\x0c.ackResponse\"\x00\x12(\n\x0fremove_neighbor\x12\x05.Node\x1a\x0c.ackResponse\"\x00\x12;\n\x0cgetNeighbors\x12\x13.getNeighborRequest\x1a\x14.getNeighborResponse\"\x00\x12\'\n\tgetLeader\x12\x11.getLeaderRequest\x1a\x05.Node\"\x00\x62\x06proto3')
+  serialized_pb=_b('\n\rcluster.proto\" \n\x04Node\x12\n\n\x02ip\x18\x01 \x01(\t\x12\x0c\n\x04port\x18\x02 \x01(\t\"/\n\x0b\x61\x63kResponse\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x0f\n\x07message\x18\x02 \x01(\t\"E\n\nNodeDetail\x12\x17\n\x08nodeInfo\x18\x01 \x01(\x0b\x32\x05.Node\x12\r\n\x05state\x18\x02 \x01(\t\x12\x0f\n\x07isAlive\x18\x03 \x01(\t\"\x14\n\x12getNeighborRequest\"\x12\n\x10getLeaderRequest\"1\n\x13getNeighborResponse\x12\x1a\n\x05nodes\x18\x01 \x03(\x0b\x32\x0b.NodeDetail\"\x14\n\x12getReadNodeRequest2\x9e\x02\n\x0e\x43lusterService\x12(\n\x0fleader_initiate\x12\x05.Node\x1a\x0c.ackResponse\"\x00\x12%\n\x0c\x61\x64\x64_neighbor\x12\x05.Node\x1a\x0c.ackResponse\"\x00\x12(\n\x0fremove_neighbor\x12\x05.Node\x1a\x0c.ackResponse\"\x00\x12;\n\x0cgetNeighbors\x12\x13.getNeighborRequest\x1a\x14.getNeighborResponse\"\x00\x12\'\n\tgetLeader\x12\x11.getLeaderRequest\x1a\x05.Node\"\x00\x12+\n\x0bgetReadNode\x12\x13.getReadNodeRequest\x1a\x05.Node\"\x00\x62\x06proto3')
 )
 
 
@@ -224,6 +224,30 @@ _GETNEIGHBORRESPONSE = _descriptor.Descriptor(
   serialized_end=262,
 )
 
+
+_GETREADNODEREQUEST = _descriptor.Descriptor(
+  name='getReadNodeRequest',
+  full_name='getReadNodeRequest',
+  filename=None,
+  file=DESCRIPTOR,
+  containing_type=None,
+  fields=[
+  ],
+  extensions=[
+  ],
+  nested_types=[],
+  enum_types=[
+  ],
+  serialized_options=None,
+  is_extendable=False,
+  syntax='proto3',
+  extension_ranges=[],
+  oneofs=[
+  ],
+  serialized_start=264,
+  serialized_end=284,
+)
+
 _NODEDETAIL.fields_by_name['nodeInfo'].message_type = _NODE
 _GETNEIGHBORRESPONSE.fields_by_name['nodes'].message_type = _NODEDETAIL
 DESCRIPTOR.message_types_by_name['Node'] = _NODE
@@ -232,6 +256,7 @@ DESCRIPTOR.message_types_by_name['NodeDetail'] = _NODEDETAIL
 DESCRIPTOR.message_types_by_name['getNeighborRequest'] = _GETNEIGHBORREQUEST
 DESCRIPTOR.message_types_by_name['getLeaderRequest'] = _GETLEADERREQUEST
 DESCRIPTOR.message_types_by_name['getNeighborResponse'] = _GETNEIGHBORRESPONSE
+DESCRIPTOR.message_types_by_name['getReadNodeRequest'] = _GETREADNODEREQUEST
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
 Node = _reflection.GeneratedProtocolMessageType('Node', (_message.Message,), dict(
@@ -276,6 +301,13 @@ getNeighborResponse = _reflection.GeneratedProtocolMessageType('getNeighborRespo
   ))
 _sym_db.RegisterMessage(getNeighborResponse)
 
+getReadNodeRequest = _reflection.GeneratedProtocolMessageType('getReadNodeRequest', (_message.Message,), dict(
+  DESCRIPTOR = _GETREADNODEREQUEST,
+  __module__ = 'cluster_pb2'
+  # @@protoc_insertion_point(class_scope:getReadNodeRequest)
+  ))
+_sym_db.RegisterMessage(getReadNodeRequest)
+
 
 
 _CLUSTERSERVICE = _descriptor.ServiceDescriptor(
@@ -284,8 +316,8 @@ _CLUSTERSERVICE = _descriptor.ServiceDescriptor(
   file=DESCRIPTOR,
   index=0,
   serialized_options=None,
-  serialized_start=265,
-  serialized_end=506,
+  serialized_start=287,
+  serialized_end=573,
   methods=[
   _descriptor.MethodDescriptor(
     name='leader_initiate',
@@ -329,6 +361,15 @@ _CLUSTERSERVICE = _descriptor.ServiceDescriptor(
     index=4,
     containing_service=None,
     input_type=_GETLEADERREQUEST,
+    output_type=_NODE,
+    serialized_options=None,
+  ),
+  _descriptor.MethodDescriptor(
+    name='getReadNode',
+    full_name='ClusterService.getReadNode',
+    index=5,
+    containing_service=None,
+    input_type=_GETREADNODEREQUEST,
     output_type=_NODE,
     serialized_options=None,
   ),

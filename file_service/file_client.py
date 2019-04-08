@@ -62,20 +62,26 @@ class FileClient(object):
         return response
 
     def DownloadFile(self, _file, username):
+        # get read node from cluster server
+        read_node = self.cluster_stub.getReadNode(cluster_pb2.getReadNodeRequest())
+        read_node_channel = grpc.insecure_channel(
+            '{}:{}'.format(read_node.ip, read_node.port))
+
+        read_node_stub = fileservice_pb2_grpc.FileServiceStub(read_node_channel)
         Logger.info(f'Starting to Download the file...')
         request = fileservice_pb2.FileInfo()
         request.user_info.username = username
         request.filename = _file
         # Check for the destination file
-        destination_path = f"download_data_{self.server_port}/{username}"
+        destination_path = f"download_data/{username}/"
         if not os.path.exists(destination_path):
             os.makedirs(destination_path)
 
         f = open(f"{destination_path}/{_file}", 'bw+')
-        self.stub.DownloadFile(request)
+        read_node_stub.DownloadFile(request)
         try:
 
-            for response in self.stub.DownloadFile(request):
+            for response in read_node_stub.DownloadFile(request):
                 chunk = response.data
                 f.write(chunk)
         except grpc.RpcError as err:
@@ -84,18 +90,30 @@ class FileClient(object):
         Logger.info(f'Downloading the file is complete...')
 
     def FileSearch(self, username, _file):
+        read_node = self.cluster_stub.getReadNode(cluster_pb2.getReadNodeRequest())
+        read_node_channel = grpc.insecure_channel(
+            '{}:{}'.format(read_node.ip, read_node.port))
+
+        read_node_stub = fileservice_pb2_grpc.FileServiceStub(read_node_channel)
+
         Logger.info(f'Searching if the file exists...')
         request = fileservice_pb2.FileInfo()
         request.user_info.username = username
         request.filename = _file
-        response = self.stub.FileSearch(request)
+        response = read_node_stub.FileSearch(request)
         Logger.info(f'File search complete...')
         return response
 
     def FileList(self, username):
+        read_node = self.cluster_stub.getReadNode(cluster_pb2.getReadNodeRequest())
+        read_node_channel = grpc.insecure_channel(
+            '{}:{}'.format(read_node.ip, read_node.port))
+
+        read_node_stub = fileservice_pb2_grpc.FileServiceStub(read_node_channel)
+
         request = fileservice_pb2.UserInfo()
         request.username = username
-        response = self.stub.FileList(request)
+        response = read_node_stub.FileList(request)
         return response
 
 if __name__ == '__main__':
@@ -104,6 +122,7 @@ if __name__ == '__main__':
     #curr_client.UploadFile('1', 'prabaniy')
     #curr_client.UploadFile('1_2', 'ben')
     #curr_client.UploadFile('1_2', 'prabaniy')
+    curr_client.DownloadFile("1_2", "ben")
     #print(curr_client.FileList('prabaniy'))
-    #print(curr_client.FileSearch('prabaniy', 'sample_data.txt'))
-    curr_client.FileDelete('1', 'ben')
+    #print(curr_client.FileSearch('prabaniy', '1_2'))
+    #curr_client.FileDelete('1', 'ben')
