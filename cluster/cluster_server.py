@@ -9,11 +9,14 @@ from cluster.libs.node import Node
 from random import randrange
 from threading import Thread
 from file_service.proto import fileservice_pb2, fileservice_pb2_grpc
+from monitor.monit_server import HeartBeatImplementation
 
 from monitor.monit_client import HeartbeatClient
 
 CPU_MAX = 20
 SERVER_PORT = '50053'
+#SERVER_IP = '192.168.100.9'
+SERVER_IP = 'localhost'
 
 
 class ClusterImplementation(cluster_pb2_grpc.ClusterServiceServicer):
@@ -162,12 +165,40 @@ class ClusterImplementation(cluster_pb2_grpc.ClusterServiceServicer):
                     Logger.info("Node is not alive")
 
             node_alive_list = [node for node in neighbors if node.getIsAlive() == True]
-            if len(node_alive_list) > 0:
+            node_leader_list = [node for node in neighbors if node.getState() == 'Leader']
+            if len(node_alive_list) > 0 and len(node_leader_list)==0:
                 new_leader_node = random.choice(node_alive_list)
                 for neighbor in neighbors:
                     if neighbor.ip == new_leader_node.ip and neighbor.port == new_leader_node.port:
                         neighbor.setState("Leader")
                         break
+                    else:
+                        neighbor.setState("Follower")
+
+    def connectSuperNode(self):
+        while True:
+            # get neighbors[] from cluster
+            neighbors = self.cluster.get_neighbors()
+            # sleep for random time between 2-13 seconds
+            if len(neighbors)>0:
+                time.sleep(randrange(1, 6))
+                print("Reached the supernode heartbeat entry")
+                print("------------------------------------")
+                node_list = [node for node in neighbors if node['state'] == 'Leader']
+
+                print("*****",node_list)
+                leader = node_list[0]
+                ip = leader['ip']
+                port_number = leader['port']
+
+                channel = grpc.insecure_channel('192.168.0.9:9000')
+
+                # bind the client to the server channel
+                stub = fileservice_pb2_grpc.FileServiceStub(channel)
+
+               #Send the leader ip, port, cluster name to supernode
+                stub.getLeaderInfo(fileservice_pb2.ClusterInfo(ip=ip, port=port_number, clusterName="easy_money"))
+            continue
 
 
 
@@ -185,7 +216,8 @@ class ClusterImplementation(cluster_pb2_grpc.ClusterServiceServicer):
 
         thread_1 = Thread(target=self.neighborHeartbeat)
         thread_1.start()
-
+        # thread_2 = Thread(target=self.connectSuperNode)
+        # thread_2.start()
 
         Logger.info(f'Cluster Server running on port {SERVER_PORT}...')
 
@@ -199,5 +231,5 @@ class ClusterImplementation(cluster_pb2_grpc.ClusterServiceServicer):
 
 
 if __name__ == '__main__':
-    cluster_server = ClusterImplementation(ip='localhost', port=SERVER_PORT)
+    cluster_server = ClusterImplementation(ip=SERVER_IP, port=SERVER_PORT)
     cluster_server.start_server()

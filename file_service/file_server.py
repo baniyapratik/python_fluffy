@@ -17,11 +17,13 @@ import json
 SERVER_PORT = 50051
 CHUNK_SIZE = 4*1024
 THRESHHOLD = 3500000
+SERVER_IP = '192.168.100.9'
+SERVER_IP = 'localhost'
 
 class FileServiceImplementation(fileservice_pb2_grpc.FileServiceServicer):
 
     def __init__(self, port, cluster_server_ip, cluster_server_port):
-        self.ip = "localhost"
+        self.ip = SERVER_IP
         self.port = port
         self.cluster_server_stub = cluster_pb2_grpc.ClusterServiceStub(grpc.insecure_channel(f'{cluster_server_ip}:{cluster_server_port}'))
 
@@ -215,6 +217,15 @@ class FileServiceImplementation(fileservice_pb2_grpc.FileServiceServicer):
         cpu_data = psutil.cpu_percent()
         swap_memory_data = psutil.swap_memory().percent
         return fileservice_pb2.StatsResponse(cpuutil=cpu_data, swap_memory=swap_memory_data)
+
+    def getClusterStats(self, request, context):
+        cpu_data = psutil.cpu_percent()
+        cpu_usage = self.update_warning(cpu_data)
+        memory_swap_data = psutil.swap_memory().percent
+        disk_available_data = psutil.swap_memory().percent
+
+        return fileservice_pb2.ClusterStats(cpu_usage = str(cpu_usage), disk_space = str(disk_available_data),
+                                                        used_mem =str(memory_swap_data))
 
     def initiate_data(self):
         # get read_node to get files from

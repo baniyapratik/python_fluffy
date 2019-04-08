@@ -42,6 +42,23 @@ message UsersRequest {}
 message UsersResponse {
     string users_list = 1;
 }
+
+// The request message containing ip address and leader status
+message ClusterInfo {
+    string ip = 1;
+    string port = 2;
+    string clusterName = 3;
+}
+
+// The response message containing the status of the server
+message ClusterStats {
+    string cpu_usage = 1;
+    string disk_space = 2;
+    string used_mem = 3;
+}
+
+message Empty {}
+
 service FileService {
     rpc DownloadFile (FileInfo) returns (stream FileData) {}
     rpc FileSearch (FileInfo) returns (ack) {}
@@ -53,4 +70,6 @@ service FileService {
     rpc Heartbeat (HeartbeatRequest) returns (HeartbeatResponse) {}
     rpc Stats (StatsRequest) returns (StatsResponse) {}
     rpc GetUsers (UsersRequest) returns (UsersResponse) {}
+    rpc getClusterStats (Empty) returns (ClusterStats);
+    rpc getLeaderInfo (ClusterInfo) returns (ack);
 }
