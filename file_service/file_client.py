@@ -5,9 +5,10 @@ import grpc
 from utils.logger import Logger
 from utils import FileHandler
 import utils.FileHandler as file_handler
+from cluster.proto import cluster_pb2, cluster_pb2_grpc
 from file_service.proto import fileservice_pb2, fileservice_pb2_grpc
 
-SERVER_PORT = 50051
+SERVER_PORT = 50053
 CHUNK_SIZE = 4*1024
 THRESHHOLD = 3500000
 
@@ -20,33 +21,44 @@ class FileClient(object):
         # configure the host and the
         # the port to which the client should connect
         # to.
-        self.host = 'localhost'
-        self.server_port = SERVER_PORT
+        self.cluster_ip = 'localhost'
+        self.cluster_port = SERVER_PORT
 
         # instantiate a communication channel
-        self.channel = grpc.insecure_channel(
-            '{}:{}'.format(self.host, self.server_port))
+        self.cluster_channel = grpc.insecure_channel(
+            '{}:{}'.format(self.cluster_ip, self.cluster_port))
 
         # bind the client to the server channel
-        self.stub = fileservice_pb2_grpc.FileServiceStub(self.channel)
+        self.cluster_stub = cluster_pb2_grpc.ClusterServiceStub(self.cluster_channel)
 
     def FileDelete(self, filename, username):
+        leader_response = self.cluster_stub.getLeader(cluster_pb2.getLeaderRequest())
+        leader_channel = grpc.insecure_channel(
+            '{}:{}'.format(leader_response.ip, leader_response.port))
+
+        leader_stub = fileservice_pb2_grpc.FileServiceStub(leader_channel)
         Logger.info(f'Starting to delete the file...')
         request = fileservice_pb2.FileInfo()
         request.filename = filename
         request.user_info.username =username
-        response = self.stub.FileDelete(request)
+        response = leader_stub.FileDelete(request)
         Logger.info(f'File deleted')
         return response
 
     def UploadFile(self, _file, username):
         """
-        Client function to call the rpc for GetDigest
+        Client function to call the rpc for uploading a file, gets the leader from cluster_server then uploads the file to it
         """
+        leader_response = self.cluster_stub.getLeader(cluster_pb2.getLeaderRequest())
+        leader_channel = grpc.insecure_channel(
+            '{}:{}'.format(leader_response.ip, leader_response.port))
+
+        leader_stub = fileservice_pb2_grpc.FileServiceStub(leader_channel)
         Logger.info(f'Starting to stream the file...')
         chunk_iterator = FileHandler.chunk_bytes(_file, username, fileservice_pb2)
-        response = self.stub.UploadFile(chunk_iterator)
+        response = leader_stub.UploadFile(chunk_iterator)
         Logger.info(f'File Uploaded. Response {response}')
+
         return response
 
     def DownloadFile(self, _file, username):
@@ -88,7 +100,10 @@ class FileClient(object):
 
 if __name__ == '__main__':
     curr_client = FileClient()
-    curr_client.UploadFile('1', 'prabaniy')
-    print(curr_client.FileList('prabaniy'))
+    #curr_client.UploadFile('1', 'ben')
+    #curr_client.UploadFile('1', 'prabaniy')
+    #curr_client.UploadFile('1_2', 'ben')
+    #curr_client.UploadFile('1_2', 'prabaniy')
+    #print(curr_client.FileList('prabaniy'))
     #print(curr_client.FileSearch('prabaniy', 'sample_data.txt'))
-    #curr_client.FileDelete('username', 'filename')
+    curr_client.FileDelete('1', 'ben')

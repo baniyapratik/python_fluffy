@@ -2,6 +2,7 @@ import os
 import grpc
 import time
 import math
+import sys
 from tqdm import tqdm
 from utils import FileHandler
 from utils.logger import Logger
@@ -24,22 +25,28 @@ class FileServiceImplementation(fileservice_pb2_grpc.FileServiceServicer):
 
     def ReplicateFile(self, request_iterator, context):
         Logger.info(f"Replicate request received. {self.port}")
-        temp_file = f"replicate_{self.port}"
-        Logger.info("Create temp file " + temp_file)
-        f = open(temp_file, 'bw+')
+        f = None
+        destination_path = None
+        temp_file = None
+        file_name = None
         try:
             for request in request_iterator:
-                user_name = request.username
-                file_name = request.filename
+                if f is None:
+                    file_name = request.filename
+                    destination_path = f"file_data_{self.port}/{request.username}"
+                    if not os.path.exists(destination_path):
+                        os.makedirs(destination_path)
+                    temp_file = f"{destination_path}/replicate_{file_name}"
+                    Logger.info("Create temp file " + temp_file)
+                    f = open(temp_file, 'bw+')
                 chunk = request.data
                 f.write(chunk)
 
         finally:
-            f.close()
+            if f is not None:
+                f.close()
 
-        destination_path = f"file_data_{self.port}/{user_name}"
-        if not os.path.exists(destination_path):
-            os.makedirs(destination_path)
+
         os.system(f"mv {temp_file} {destination_path}/{file_name}")
         return fileservice_pb2.ack(success=True, message="File Uploaded")
 
@@ -98,7 +105,8 @@ class FileServiceImplementation(fileservice_pb2_grpc.FileServiceServicer):
         for neighbor in neighbors:
             neighbor_ip = neighbor.nodeInfo.ip
             neighbor_port = neighbor.nodeInfo.port
-            if neighbor_port != self.port:
+            is_alive = neighbor.isAlive
+            if neighbor_port != self.port and is_alive == 'True':
                 # instantiate a communication channel
                 channel = grpc.insecure_channel(
                     '{}:{}'.format(neighbor_ip, neighbor_port))
@@ -135,7 +143,7 @@ class FileServiceImplementation(fileservice_pb2_grpc.FileServiceServicer):
         for neighbor in neighbors:
             neighbor_ip = neighbor.nodeInfo.ip
             neighbor_port = neighbor.nodeInfo.port
-            if neighbor_port != self.port:
+            if int(neighbor_port) != self.port:
                 # instantiate a communication channel
                 channel = grpc.insecure_channel(
                     '{}:{}'.format(neighbor_ip, neighbor_port))
@@ -220,18 +228,11 @@ class FileServiceImplementation(fileservice_pb2_grpc.FileServiceServicer):
             print('File Server Stopped ...')
 
 if __name__ == '__main__':
-
-    file_server_1 = FileServiceImplementation(50051, "localhost", 50053)
-    #file_server_1.start_server()
-    file_server_2 = FileServiceImplementation(50052, "localhost", 50053)
-    #file_server_2.start_server()
-    file_server_3 = FileServiceImplementation(50054, "localhost", 50053)
-    #file_server_3.start_server()
-
-    thread_1 = Thread(target=file_server_1.start_server)
-    thread_2 = Thread(target=file_server_2.start_server)
-    thread_3 = Thread(target=file_server_3.start_server)
-
-    thread_1.start()
-    thread_3.start()
-    thread_2.start()
+    # argument 1: port node runs on
+    # argument 2: ip cluster_server runs on
+    # argument 3: port cluster_server runs on
+    print(sys.argv[1])
+    print(sys.argv[2])
+    print(sys.argv[3])
+    file_server = FileServiceImplementation(int(sys.argv[1]), sys.argv[2], int(sys.argv[3]))
+    file_server.start_server()

@@ -26,9 +26,10 @@ class ClusterImplementation(cluster_pb2_grpc.ClusterServiceServicer):
 
         leader = [node for node in neighbors if node['state'] == 'Leader']
         if not leader:
-            self.node.setState('Leader')
-            self.node.setIsAlive(True)
-            self.cluster.add_node(Node(request.ip, request.port))
+            leader_node = Node(request.ip, request.port)
+            leader_node.setState("Leader")
+            node = self.cluster.add_node(leader_node)
+            node['state'] = 'Leader'
             response = cluster_pb2.ackResponse(success=True, message='Node added')
             Logger.info("Node added.")
         else:
@@ -73,8 +74,14 @@ class ClusterImplementation(cluster_pb2_grpc.ClusterServiceServicer):
     def getLeader(self, request, context):
         Logger.info("Searching for the Leader...")
         neighbors = self.cluster.get_neighbors()
-        leader = [node for node in neighbors if node['state'] == 'Leader']
-        response = cluster_pb2.getLeaderRequest(ip=leader.ip, port=leader.port)
+        node_list = [node for node in neighbors if node['state'] == 'Leader']
+        leader = node_list[0]
+        ip = leader['ip']
+        port_number = leader['port']
+        print(leader)
+        print(leader['ip'])
+        print(leader['port'])
+        response = cluster_pb2.Node(ip=ip, port=port_number)
         Logger.info(f"Sending a response. {response}")
         return response
 

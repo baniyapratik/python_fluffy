@@ -30,5 +30,5 @@ class Cluster:
             "port": node.port,
             "state": node.state,
             "state_data": node.state_data,
-            "isAlive": node.isAlive
+            "isAlive": 'True'
         }
