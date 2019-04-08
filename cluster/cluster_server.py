@@ -216,8 +216,8 @@ class ClusterImplementation(cluster_pb2_grpc.ClusterServiceServicer):
 
         thread_1 = Thread(target=self.neighborHeartbeat)
         thread_1.start()
-        # thread_2 = Thread(target=self.connectSuperNode)
-        # thread_2.start()
+        thread_2 = Thread(target=self.connectSuperNode)
+        thread_2.start()
 
         Logger.info(f'Cluster Server running on port {SERVER_PORT}...')
 
