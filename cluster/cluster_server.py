@@ -10,6 +10,7 @@ from random import randrange
 from threading import Thread
 from file_service.proto import fileservice_pb2, fileservice_pb2_grpc
 from monitor.monit_server import HeartBeatImplementation
+from cluster.counter import TestObj
 
 from monitor.monit_client import HeartbeatClient
 
@@ -176,6 +177,36 @@ class ClusterImplementation(cluster_pb2_grpc.ClusterServiceServicer):
                     else:
                         neighbor.setState("Follower")
 
+    def raftStartUp(self):
+        neighbors = self.cluster.get_neighbors_objects()
+        neighbor_list = []
+        for neighbor in neighbors:
+            neighbor_ip = neighbor.ip
+            neighbor_port = neighbor.port
+            neighbor_list.append(str(neighbor_ip)+":"+str(neighbor_port))
+
+
+        o = TestObj('localhost:50057', neighbor_list)
+        n = 0
+        old_value = -1
+        while True:
+            # time.sleep(0.005)
+            time.sleep(0.5)
+            if o.getCounter() != old_value:
+                old_value = o.getCounter()
+                print(old_value)
+            if o._getLeader() is None:
+                continue
+            # if n < 2000:
+            if n < 20:
+                # callback=partial(o.onAdd, cnt=n)
+                o.addValue(10, n)
+            n += 1
+            if n % 200 == 0:
+                if True:
+                    print('Counter value:', o.getCounter(), o._getLeader(), o._getRaftLogSize(), o._getLastCommitIndex())
+
+
 
     def sendLeaderInfo(self):
 
@@ -222,6 +253,8 @@ class ClusterImplementation(cluster_pb2_grpc.ClusterServiceServicer):
         thread_1.start()
         thread_2 = Thread(target=self.sendLeaderInfo)
         thread_2.start()
+        #thread_3 = Thread(target=self.raftStartUp)
+        #thread_3.start()
 
 
         Logger.info(f'Cluster Server running on port {SERVER_PORT}...')
