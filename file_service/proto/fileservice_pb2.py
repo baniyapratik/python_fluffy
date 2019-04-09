@@ -16,10 +16,10 @@ _sym_db = _symbol_database.Default()
 
 DESCRIPTOR = _descriptor.FileDescriptor(
   name='fileService.proto',
-  package='',
+  package='fileservice',
   syntax='proto3',
   serialized_options=None,
-  serialized_pb=_b('\n\x11\x66ileService.proto\"<\n\x08\x46ileData\x12\x10\n\x08username\x18\x01 \x01(\t\x12\x10\n\x08\x66ilename\x18\x02 \x01(\t\x12\x0c\n\x04\x64\x61ta\x18\x03 \x01(\x0c\"\'\n\x03\x61\x63k\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x0f\n\x07message\x18\x02 \x01(\t\":\n\x08\x46ileInfo\x12\x1c\n\tuser_info\x18\x01 \x01(\x0b\x32\t.UserInfo\x12\x10\n\x08\x66ilename\x18\x02 \x01(\t\"\x1c\n\x08UserInfo\x12\x10\n\x08username\x18\x01 \x01(\t\"%\n\x10\x46ileListResponse\x12\x11\n\tfilenames\x18\x01 \x01(\t\"\x12\n\x10HeartbeatRequest\"%\n\x11HeartbeatResponse\x12\x10\n\x08response\x18\x01 \x01(\t\"\x0e\n\x0cStatsRequest\"5\n\rStatsResponse\x12\x0f\n\x07\x63puutil\x18\x01 \x01(\x02\x12\x13\n\x0bswap_memory\x18\x02 \x01(\x02\"\x0e\n\x0cUsersRequest\"#\n\rUsersResponse\x12\x12\n\nusers_list\x18\x01 \x01(\t\"<\n\x0b\x43lusterInfo\x12\n\n\x02ip\x18\x01 \x01(\t\x12\x0c\n\x04port\x18\x02 \x01(\t\x12\x13\n\x0b\x63lusterName\x18\x03 \x01(\t\"G\n\x0c\x43lusterStats\x12\x11\n\tcpu_usage\x18\x01 \x01(\t\x12\x12\n\ndisk_space\x18\x02 \x01(\t\x12\x10\n\x08used_mem\x18\x03 \x01(\t\"\x07\n\x05\x45mpty2\xed\x03\n\x0b\x46ileService\x12(\n\x0c\x44ownloadFile\x12\t.FileInfo\x1a\t.FileData\"\x00\x30\x01\x12\x1f\n\nFileSearch\x12\t.FileInfo\x1a\x04.ack\"\x00\x12*\n\x08\x46ileList\x12\t.UserInfo\x1a\x11.FileListResponse\"\x00\x12$\n\rReplicateFile\x12\t.FileData\x1a\x04.ack\"\x00(\x01\x12!\n\nUploadFile\x12\t.FileData\x1a\x04.ack\"\x00(\x01\x12\x1f\n\nFileDelete\x12\t.FileInfo\x1a\x04.ack\"\x00\x12!\n\nUpdateFile\x12\t.FileData\x1a\x04.ack\"\x00(\x01\x12\x34\n\tHeartbeat\x12\x11.HeartbeatRequest\x1a\x12.HeartbeatResponse\"\x00\x12(\n\x05Stats\x12\r.StatsRequest\x1a\x0e.StatsResponse\"\x00\x12+\n\x08GetUsers\x12\r.UsersRequest\x1a\x0e.UsersResponse\"\x00\x12(\n\x0fgetClusterStats\x12\x06.Empty\x1a\r.ClusterStats\x12#\n\rgetLeaderInfo\x12\x0c.ClusterInfo\x1a\x04.ackb\x06proto3')
+  serialized_pb=_b('\n\x11\x66ileService.proto\x12\x0b\x66ileservice\"<\n\x08\x46ileData\x12\x10\n\x08username\x18\x01 \x01(\t\x12\x10\n\x08\x66ilename\x18\x02 \x01(\t\x12\x0c\n\x04\x64\x61ta\x18\x03 \x01(\x0c\"\'\n\x03\x61\x63k\x12\x0f\n\x07success\x18\x01 \x01(\x08\x12\x0f\n\x07message\x18\x02 \x01(\t\"F\n\x08\x46ileInfo\x12(\n\tuser_info\x18\x01 \x01(\x0b\x32\x15.fileservice.UserInfo\x12\x10\n\x08\x66ilename\x18\x02 \x01(\t\"\x1c\n\x08UserInfo\x12\x10\n\x08username\x18\x01 \x01(\t\"%\n\x10\x46ileListResponse\x12\x11\n\tfilenames\x18\x01 \x01(\t\"\x12\n\x10HeartbeatRequest\"%\n\x11HeartbeatResponse\x12\x10\n\x08response\x18\x01 \x01(\t\"\x0e\n\x0cStatsRequest\"5\n\rStatsResponse\x12\x0f\n\x07\x63puutil\x18\x01 \x01(\x02\x12\x13\n\x0bswap_memory\x18\x02 \x01(\x02\"\x0e\n\x0cUsersRequest\"#\n\rUsersResponse\x12\x12\n\nusers_list\x18\x01 \x01(\t\"<\n\x0b\x43lusterInfo\x12\n\n\x02ip\x18\x01 \x01(\t\x12\x0c\n\x04port\x18\x02 \x01(\t\x12\x13\n\x0b\x63lusterName\x18\x03 \x01(\t\"G\n\x0c\x43lusterStats\x12\x11\n\tcpu_usage\x18\x01 \x01(\t\x12\x12\n\ndisk_space\x18\x02 \x01(\t\x12\x10\n\x08used_mem\x18\x03 \x01(\t\"\x07\n\x05\x45mpty2\x8d\x06\n\x0b\x46ileService\x12@\n\x0c\x44ownloadFile\x12\x15.fileservice.FileInfo\x1a\x15.fileservice.FileData\"\x00\x30\x01\x12\x37\n\nFileSearch\x12\x15.fileservice.FileInfo\x1a\x10.fileservice.ack\"\x00\x12\x42\n\x08\x46ileList\x12\x15.fileservice.UserInfo\x1a\x1d.fileservice.FileListResponse\"\x00\x12<\n\rReplicateFile\x12\x15.fileservice.FileData\x1a\x10.fileservice.ack\"\x00(\x01\x12\x39\n\nUploadFile\x12\x15.fileservice.FileData\x1a\x10.fileservice.ack\"\x00(\x01\x12\x37\n\nFileDelete\x12\x15.fileservice.FileInfo\x1a\x10.fileservice.ack\"\x00\x12\x39\n\nUpdateFile\x12\x15.fileservice.FileData\x1a\x10.fileservice.ack\"\x00(\x01\x12L\n\tHeartbeat\x12\x1d.fileservice.HeartbeatRequest\x1a\x1e.fileservice.HeartbeatResponse\"\x00\x12@\n\x05Stats\x12\x19.fileservice.StatsRequest\x1a\x1a.fileservice.StatsResponse\"\x00\x12\x43\n\x08GetUsers\x12\x19.fileservice.UsersRequest\x1a\x1a.fileservice.UsersResponse\"\x00\x12@\n\x0fgetClusterStats\x12\x12.fileservice.Empty\x1a\x19.fileservice.ClusterStats\x12;\n\rgetLeaderInfo\x12\x18.fileservice.ClusterInfo\x1a\x10.fileservice.ackb\x06proto3')
 )
 
 
@@ -27,27 +27,27 @@ DESCRIPTOR = _descriptor.FileDescriptor(
 
 _FILEDATA = _descriptor.Descriptor(
   name='FileData',
-  full_name='FileData',
+  full_name='fileservice.FileData',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='username', full_name='FileData.username', index=0,
+      name='username', full_name='fileservice.FileData.username', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='filename', full_name='FileData.filename', index=1,
+      name='filename', full_name='fileservice.FileData.filename', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='data', full_name='FileData.data', index=2,
+      name='data', full_name='fileservice.FileData.data', index=2,
       number=3, type=12, cpp_type=9, label=1,
       has_default_value=False, default_value=_b(""),
       message_type=None, enum_type=None, containing_type=None,
@@ -65,27 +65,27 @@ _FILEDATA = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=21,
-  serialized_end=81,
+  serialized_start=34,
+  serialized_end=94,
 )
 
 
 _ACK = _descriptor.Descriptor(
   name='ack',
-  full_name='ack',
+  full_name='fileservice.ack',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='success', full_name='ack.success', index=0,
+      name='success', full_name='fileservice.ack.success', index=0,
       number=1, type=8, cpp_type=7, label=1,
       has_default_value=False, default_value=False,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='message', full_name='ack.message', index=1,
+      name='message', full_name='fileservice.ack.message', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -103,27 +103,27 @@ _ACK = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=83,
-  serialized_end=122,
+  serialized_start=96,
+  serialized_end=135,
 )
 
 
 _FILEINFO = _descriptor.Descriptor(
   name='FileInfo',
-  full_name='FileInfo',
+  full_name='fileservice.FileInfo',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='user_info', full_name='FileInfo.user_info', index=0,
+      name='user_info', full_name='fileservice.FileInfo.user_info', index=0,
       number=1, type=11, cpp_type=10, label=1,
       has_default_value=False, default_value=None,
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='filename', full_name='FileInfo.filename', index=1,
+      name='filename', full_name='fileservice.FileInfo.filename', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -141,20 +141,20 @@ _FILEINFO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=124,
-  serialized_end=182,
+  serialized_start=137,
+  serialized_end=207,
 )
 
 
 _USERINFO = _descriptor.Descriptor(
   name='UserInfo',
-  full_name='UserInfo',
+  full_name='fileservice.UserInfo',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='username', full_name='UserInfo.username', index=0,
+      name='username', full_name='fileservice.UserInfo.username', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -172,20 +172,20 @@ _USERINFO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=184,
-  serialized_end=212,
+  serialized_start=209,
+  serialized_end=237,
 )
 
 
 _FILELISTRESPONSE = _descriptor.Descriptor(
   name='FileListResponse',
-  full_name='FileListResponse',
+  full_name='fileservice.FileListResponse',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='filenames', full_name='FileListResponse.filenames', index=0,
+      name='filenames', full_name='fileservice.FileListResponse.filenames', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -203,14 +203,14 @@ _FILELISTRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=214,
-  serialized_end=251,
+  serialized_start=239,
+  serialized_end=276,
 )
 
 
 _HEARTBEATREQUEST = _descriptor.Descriptor(
   name='HeartbeatRequest',
-  full_name='HeartbeatRequest',
+  full_name='fileservice.HeartbeatRequest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
@@ -227,20 +227,20 @@ _HEARTBEATREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=253,
-  serialized_end=271,
+  serialized_start=278,
+  serialized_end=296,
 )
 
 
 _HEARTBEATRESPONSE = _descriptor.Descriptor(
   name='HeartbeatResponse',
-  full_name='HeartbeatResponse',
+  full_name='fileservice.HeartbeatResponse',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='response', full_name='HeartbeatResponse.response', index=0,
+      name='response', full_name='fileservice.HeartbeatResponse.response', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -258,14 +258,14 @@ _HEARTBEATRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=273,
-  serialized_end=310,
+  serialized_start=298,
+  serialized_end=335,
 )
 
 
 _STATSREQUEST = _descriptor.Descriptor(
   name='StatsRequest',
-  full_name='StatsRequest',
+  full_name='fileservice.StatsRequest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
@@ -282,27 +282,27 @@ _STATSREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=312,
-  serialized_end=326,
+  serialized_start=337,
+  serialized_end=351,
 )
 
 
 _STATSRESPONSE = _descriptor.Descriptor(
   name='StatsResponse',
-  full_name='StatsResponse',
+  full_name='fileservice.StatsResponse',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='cpuutil', full_name='StatsResponse.cpuutil', index=0,
+      name='cpuutil', full_name='fileservice.StatsResponse.cpuutil', index=0,
       number=1, type=2, cpp_type=6, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='swap_memory', full_name='StatsResponse.swap_memory', index=1,
+      name='swap_memory', full_name='fileservice.StatsResponse.swap_memory', index=1,
       number=2, type=2, cpp_type=6, label=1,
       has_default_value=False, default_value=float(0),
       message_type=None, enum_type=None, containing_type=None,
@@ -320,14 +320,14 @@ _STATSRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=328,
-  serialized_end=381,
+  serialized_start=353,
+  serialized_end=406,
 )
 
 
 _USERSREQUEST = _descriptor.Descriptor(
   name='UsersRequest',
-  full_name='UsersRequest',
+  full_name='fileservice.UsersRequest',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
@@ -344,20 +344,20 @@ _USERSREQUEST = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=383,
-  serialized_end=397,
+  serialized_start=408,
+  serialized_end=422,
 )
 
 
 _USERSRESPONSE = _descriptor.Descriptor(
   name='UsersResponse',
-  full_name='UsersResponse',
+  full_name='fileservice.UsersResponse',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='users_list', full_name='UsersResponse.users_list', index=0,
+      name='users_list', full_name='fileservice.UsersResponse.users_list', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -375,34 +375,34 @@ _USERSRESPONSE = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=399,
-  serialized_end=434,
+  serialized_start=424,
+  serialized_end=459,
 )
 
 
 _CLUSTERINFO = _descriptor.Descriptor(
   name='ClusterInfo',
-  full_name='ClusterInfo',
+  full_name='fileservice.ClusterInfo',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='ip', full_name='ClusterInfo.ip', index=0,
+      name='ip', full_name='fileservice.ClusterInfo.ip', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='port', full_name='ClusterInfo.port', index=1,
+      name='port', full_name='fileservice.ClusterInfo.port', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='clusterName', full_name='ClusterInfo.clusterName', index=2,
+      name='clusterName', full_name='fileservice.ClusterInfo.clusterName', index=2,
       number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -420,34 +420,34 @@ _CLUSTERINFO = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=436,
-  serialized_end=496,
+  serialized_start=461,
+  serialized_end=521,
 )
 
 
 _CLUSTERSTATS = _descriptor.Descriptor(
   name='ClusterStats',
-  full_name='ClusterStats',
+  full_name='fileservice.ClusterStats',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
   fields=[
     _descriptor.FieldDescriptor(
-      name='cpu_usage', full_name='ClusterStats.cpu_usage', index=0,
+      name='cpu_usage', full_name='fileservice.ClusterStats.cpu_usage', index=0,
       number=1, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='disk_space', full_name='ClusterStats.disk_space', index=1,
+      name='disk_space', full_name='fileservice.ClusterStats.disk_space', index=1,
       number=2, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
       is_extension=False, extension_scope=None,
       serialized_options=None, file=DESCRIPTOR),
     _descriptor.FieldDescriptor(
-      name='used_mem', full_name='ClusterStats.used_mem', index=2,
+      name='used_mem', full_name='fileservice.ClusterStats.used_mem', index=2,
       number=3, type=9, cpp_type=9, label=1,
       has_default_value=False, default_value=_b("").decode('utf-8'),
       message_type=None, enum_type=None, containing_type=None,
@@ -465,14 +465,14 @@ _CLUSTERSTATS = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=498,
-  serialized_end=569,
+  serialized_start=523,
+  serialized_end=594,
 )
 
 
 _EMPTY = _descriptor.Descriptor(
   name='Empty',
-  full_name='Empty',
+  full_name='fileservice.Empty',
   filename=None,
   file=DESCRIPTOR,
   containing_type=None,
@@ -489,8 +489,8 @@ _EMPTY = _descriptor.Descriptor(
   extension_ranges=[],
   oneofs=[
   ],
-  serialized_start=571,
-  serialized_end=578,
+  serialized_start=596,
+  serialized_end=603,
 )
 
 _FILEINFO.fields_by_name['user_info'].message_type = _USERINFO
@@ -513,98 +513,98 @@ _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 FileData = _reflection.GeneratedProtocolMessageType('FileData', (_message.Message,), dict(
   DESCRIPTOR = _FILEDATA,
   __module__ = 'fileService_pb2'
-  # @@protoc_insertion_point(class_scope:FileData)
+  # @@protoc_insertion_point(class_scope:fileservice.FileData)
   ))
 _sym_db.RegisterMessage(FileData)
 
 ack = _reflection.GeneratedProtocolMessageType('ack', (_message.Message,), dict(
   DESCRIPTOR = _ACK,
   __module__ = 'fileService_pb2'
-  # @@protoc_insertion_point(class_scope:ack)
+  # @@protoc_insertion_point(class_scope:fileservice.ack)
   ))
 _sym_db.RegisterMessage(ack)
 
 FileInfo = _reflection.GeneratedProtocolMessageType('FileInfo', (_message.Message,), dict(
   DESCRIPTOR = _FILEINFO,
   __module__ = 'fileService_pb2'
-  # @@protoc_insertion_point(class_scope:FileInfo)
+  # @@protoc_insertion_point(class_scope:fileservice.FileInfo)
   ))
 _sym_db.RegisterMessage(FileInfo)
 
 UserInfo = _reflection.GeneratedProtocolMessageType('UserInfo', (_message.Message,), dict(
   DESCRIPTOR = _USERINFO,
   __module__ = 'fileService_pb2'
-  # @@protoc_insertion_point(class_scope:UserInfo)
+  # @@protoc_insertion_point(class_scope:fileservice.UserInfo)
   ))
 _sym_db.RegisterMessage(UserInfo)
 
 FileListResponse = _reflection.GeneratedProtocolMessageType('FileListResponse', (_message.Message,), dict(
   DESCRIPTOR = _FILELISTRESPONSE,
   __module__ = 'fileService_pb2'
-  # @@protoc_insertion_point(class_scope:FileListResponse)
+  # @@protoc_insertion_point(class_scope:fileservice.FileListResponse)
   ))
 _sym_db.RegisterMessage(FileListResponse)
 
 HeartbeatRequest = _reflection.GeneratedProtocolMessageType('HeartbeatRequest', (_message.Message,), dict(
   DESCRIPTOR = _HEARTBEATREQUEST,
   __module__ = 'fileService_pb2'
-  # @@protoc_insertion_point(class_scope:HeartbeatRequest)
+  # @@protoc_insertion_point(class_scope:fileservice.HeartbeatRequest)
   ))
 _sym_db.RegisterMessage(HeartbeatRequest)
 
 HeartbeatResponse = _reflection.GeneratedProtocolMessageType('HeartbeatResponse', (_message.Message,), dict(
   DESCRIPTOR = _HEARTBEATRESPONSE,
   __module__ = 'fileService_pb2'
-  # @@protoc_insertion_point(class_scope:HeartbeatResponse)
+  # @@protoc_insertion_point(class_scope:fileservice.HeartbeatResponse)
   ))
 _sym_db.RegisterMessage(HeartbeatResponse)
 
 StatsRequest = _reflection.GeneratedProtocolMessageType('StatsRequest', (_message.Message,), dict(
   DESCRIPTOR = _STATSREQUEST,
   __module__ = 'fileService_pb2'
-  # @@protoc_insertion_point(class_scope:StatsRequest)
+  # @@protoc_insertion_point(class_scope:fileservice.StatsRequest)
   ))
 _sym_db.RegisterMessage(StatsRequest)
 
 StatsResponse = _reflection.GeneratedProtocolMessageType('StatsResponse', (_message.Message,), dict(
   DESCRIPTOR = _STATSRESPONSE,
   __module__ = 'fileService_pb2'
-  # @@protoc_insertion_point(class_scope:StatsResponse)
+  # @@protoc_insertion_point(class_scope:fileservice.StatsResponse)
   ))
 _sym_db.RegisterMessage(StatsResponse)
 
 UsersRequest = _reflection.GeneratedProtocolMessageType('UsersRequest', (_message.Message,), dict(
   DESCRIPTOR = _USERSREQUEST,
   __module__ = 'fileService_pb2'
-  # @@protoc_insertion_point(class_scope:UsersRequest)
+  # @@protoc_insertion_point(class_scope:fileservice.UsersRequest)
   ))
 _sym_db.RegisterMessage(UsersRequest)
 
 UsersResponse = _reflection.GeneratedProtocolMessageType('UsersResponse', (_message.Message,), dict(
   DESCRIPTOR = _USERSRESPONSE,
   __module__ = 'fileService_pb2'
-  # @@protoc_insertion_point(class_scope:UsersResponse)
+  # @@protoc_insertion_point(class_scope:fileservice.UsersResponse)
   ))
 _sym_db.RegisterMessage(UsersResponse)
 
 ClusterInfo = _reflection.GeneratedProtocolMessageType('ClusterInfo', (_message.Message,), dict(
   DESCRIPTOR = _CLUSTERINFO,
   __module__ = 'fileService_pb2'
-  # @@protoc_insertion_point(class_scope:ClusterInfo)
+  # @@protoc_insertion_point(class_scope:fileservice.ClusterInfo)
   ))
 _sym_db.RegisterMessage(ClusterInfo)
 
 ClusterStats = _reflection.GeneratedProtocolMessageType('ClusterStats', (_message.Message,), dict(
   DESCRIPTOR = _CLUSTERSTATS,
   __module__ = 'fileService_pb2'
-  # @@protoc_insertion_point(class_scope:ClusterStats)
+  # @@protoc_insertion_point(class_scope:fileservice.ClusterStats)
   ))
 _sym_db.RegisterMessage(ClusterStats)
 
 Empty = _reflection.GeneratedProtocolMessageType('Empty', (_message.Message,), dict(
   DESCRIPTOR = _EMPTY,
   __module__ = 'fileService_pb2'
-  # @@protoc_insertion_point(class_scope:Empty)
+  # @@protoc_insertion_point(class_scope:fileservice.Empty)
   ))
 _sym_db.RegisterMessage(Empty)
 
@@ -612,16 +612,16 @@ _sym_db.RegisterMessage(Empty)
 
 _FILESERVICE = _descriptor.ServiceDescriptor(
   name='FileService',
-  full_name='FileService',
+  full_name='fileservice.FileService',
   file=DESCRIPTOR,
   index=0,
   serialized_options=None,
-  serialized_start=581,
-  serialized_end=1074,
+  serialized_start=606,
+  serialized_end=1387,
   methods=[
   _descriptor.MethodDescriptor(
     name='DownloadFile',
-    full_name='FileService.DownloadFile',
+    full_name='fileservice.FileService.DownloadFile',
     index=0,
     containing_service=None,
     input_type=_FILEINFO,
@@ -630,7 +630,7 @@ _FILESERVICE = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='FileSearch',
-    full_name='FileService.FileSearch',
+    full_name='fileservice.FileService.FileSearch',
     index=1,
     containing_service=None,
     input_type=_FILEINFO,
@@ -639,7 +639,7 @@ _FILESERVICE = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='FileList',
-    full_name='FileService.FileList',
+    full_name='fileservice.FileService.FileList',
     index=2,
     containing_service=None,
     input_type=_USERINFO,
@@ -648,7 +648,7 @@ _FILESERVICE = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='ReplicateFile',
-    full_name='FileService.ReplicateFile',
+    full_name='fileservice.FileService.ReplicateFile',
     index=3,
     containing_service=None,
     input_type=_FILEDATA,
@@ -657,7 +657,7 @@ _FILESERVICE = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='UploadFile',
-    full_name='FileService.UploadFile',
+    full_name='fileservice.FileService.UploadFile',
     index=4,
     containing_service=None,
     input_type=_FILEDATA,
@@ -666,7 +666,7 @@ _FILESERVICE = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='FileDelete',
-    full_name='FileService.FileDelete',
+    full_name='fileservice.FileService.FileDelete',
     index=5,
     containing_service=None,
     input_type=_FILEINFO,
@@ -675,7 +675,7 @@ _FILESERVICE = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='UpdateFile',
-    full_name='FileService.UpdateFile',
+    full_name='fileservice.FileService.UpdateFile',
     index=6,
     containing_service=None,
     input_type=_FILEDATA,
@@ -684,7 +684,7 @@ _FILESERVICE = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='Heartbeat',
-    full_name='FileService.Heartbeat',
+    full_name='fileservice.FileService.Heartbeat',
     index=7,
     containing_service=None,
     input_type=_HEARTBEATREQUEST,
@@ -693,7 +693,7 @@ _FILESERVICE = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='Stats',
-    full_name='FileService.Stats',
+    full_name='fileservice.FileService.Stats',
     index=8,
     containing_service=None,
     input_type=_STATSREQUEST,
@@ -702,7 +702,7 @@ _FILESERVICE = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='GetUsers',
-    full_name='FileService.GetUsers',
+    full_name='fileservice.FileService.GetUsers',
     index=9,
     containing_service=None,
     input_type=_USERSREQUEST,
@@ -711,7 +711,7 @@ _FILESERVICE = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='getClusterStats',
-    full_name='FileService.getClusterStats',
+    full_name='fileservice.FileService.getClusterStats',
     index=10,
     containing_service=None,
     input_type=_EMPTY,
@@ -720,7 +720,7 @@ _FILESERVICE = _descriptor.ServiceDescriptor(
   ),
   _descriptor.MethodDescriptor(
     name='getLeaderInfo',
-    full_name='FileService.getLeaderInfo',
+    full_name='fileservice.FileService.getLeaderInfo',
     index=11,
     containing_service=None,
     input_type=_CLUSTERINFO,

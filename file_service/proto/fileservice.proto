@@ -1,5 +1,7 @@
 syntax = "proto3";
 
+package fileservice;
+
 message FileData {
 	string username = 1;
 	string filename = 2;

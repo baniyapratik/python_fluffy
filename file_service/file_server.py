@@ -17,8 +17,8 @@ import json
 SERVER_PORT = 50051
 CHUNK_SIZE = 4*1024
 THRESHHOLD = 3500000
-SERVER_IP = '192.168.100.9'
-SERVER_IP = 'localhost'
+SERVER_IP = '192.168.0.9'
+# SERVER_IP = 'localhost'
 
 class FileServiceImplementation(fileservice_pb2_grpc.FileServiceServicer):
 
@@ -171,6 +171,17 @@ class FileServiceImplementation(fileservice_pb2_grpc.FileServiceServicer):
                 request.filename = filename
                 stub.FileDelete(request)
                 Logger.info("Files Deleted from Nodes.")
+
+    def getLeaderInfo(self, request, context):
+        channel = grpc.insecure_channel('192.168.0.9:9000')
+
+        # bind the client to the server channel
+        stub = fileservice_pb2_grpc.FileServiceStub(channel)
+
+        # Send the leader ip, port, cluster name to supernode
+        response = stub.getLeaderInfo(
+            fileservice_pb2.ClusterInfo(ip='', port='', clusterName="easy_money"))
+
 
     def get_neighbors(self):
         # obtain list of neighbors from cluster_server
