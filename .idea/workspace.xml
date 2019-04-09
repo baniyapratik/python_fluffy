@@ -2,12 +2,14 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="5cc24470-ca71-478a-938a-57d631037f41" name="Default Changelist" comment="Added code to connect to Supernode&#10;Fixed leader election">
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/cluster/cluster_server.py" beforeDir="false" afterPath="$PROJECT_DIR$/cluster/cluster_server.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/file_service/file_client.py" beforeDir="false" afterPath="$PROJECT_DIR$/file_service/file_client.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/file_service/file_server.py" beforeDir="false" afterPath="$PROJECT_DIR$/file_service/file_server.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/file_service/proto/fileservice.proto" beforeDir="false" afterPath="$PROJECT_DIR$/file_service/proto/fileservice.proto" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/file_service/proto/fileservice_pb2.py" beforeDir="false" afterPath="$PROJECT_DIR$/file_service/proto/fileservice_pb2.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/file_service/proto/fileservice_pb2_grpc.py" beforeDir="false" afterPath="$PROJECT_DIR$/file_service/proto/fileservice_pb2_grpc.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/file_service/proto/fileservice_pb2.py" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/file_service/proto/fileservice_pb2_grpc.py" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -31,11 +33,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/cluster/cluster_server.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="75">
-              <caret line="193" column="31" selection-start-line="193" selection-start-column="31" selection-end-line="193" selection-end-column="31" />
+            <state relative-caret-position="163">
+              <caret line="193" column="34" selection-start-line="193" selection-start-column="32" selection-end-line="193" selection-end-column="34" />
               <folding>
                 <element signature="e#0#11#0" expanded="true" />
               </folding>
@@ -44,19 +46,19 @@
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/anaconda3/lib/python3.7/threading.py">
+        <entry file="file://$PROJECT_DIR$/cluster/cluster_client.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="139">
-              <caret line="864" selection-start-line="864" selection-end-line="864" />
+            <state relative-caret-position="323">
+              <caret line="66" column="4" selection-start-line="66" selection-start-column="4" selection-end-line="66" selection-end-column="4" />
             </state>
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$USER_HOME$/anaconda3/lib/python3.7/site-packages/grpc/_channel.py">
+        <entry file="file://$PROJECT_DIR$/cluster/libs/node.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="139">
-              <caret line="465" selection-start-line="465" selection-end-line="465" />
+            <state relative-caret-position="450">
+              <caret line="32" selection-start-line="32" selection-end-line="32" />
             </state>
           </provider>
         </entry>
@@ -76,8 +78,20 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/file_service/file_server.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="321">
-              <caret line="174" column="29" lean-forward="true" selection-start-line="174" selection-start-column="29" selection-end-line="174" selection-end-column="29" />
+            <state relative-caret-position="3064">
+              <caret line="303" column="42" selection-start-line="303" selection-start-column="42" selection-end-line="303" selection-end-column="42" />
+              <folding>
+                <element signature="e#0#9#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/file_service/proto/fileservice.proto">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="195">
+              <caret line="68" column="18" selection-start-line="68" selection-start-column="8" selection-end-line="68" selection-end-column="18" />
             </state>
           </provider>
         </entry>
@@ -85,8 +99,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/file_service/proto/fileservice_pb2_grpc.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="131">
-              <caret line="71" column="18" selection-start-line="71" selection-start-column="9" selection-end-line="71" selection-end-column="18" />
+            <state relative-caret-position="231">
+              <caret line="85" column="39" selection-start-line="85" selection-start-column="39" selection-end-line="85" selection-end-column="39" />
               <folding>
                 <element signature="e#70#81#0" expanded="true" />
               </folding>
@@ -97,8 +111,29 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/file_service/proto/fileservice_pb2.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="150">
-              <caret line="42" column="70" lean-forward="true" selection-start-line="42" selection-start-column="70" selection-end-line="42" selection-end-column="70" />
+            <state relative-caret-position="10845">
+              <caret line="723" column="13" selection-start-line="723" selection-start-column="13" selection-end-line="723" selection-end-column="13" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/file_service/file_client.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="162">
+              <caret line="69" column="59" lean-forward="true" selection-start-line="67" selection-start-column="10" selection-end-line="69" selection-end-column="59" />
+              <folding>
+                <element signature="e#0#9#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/Distributed-File-Storage-SuperNode/superNode.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-2457">
+              <caret line="24" column="16" selection-start-line="24" selection-start-column="16" selection-end-line="24" selection-end-column="16" />
             </state>
           </provider>
         </entry>
@@ -114,21 +149,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>host</find>
-      <find>HeartbeatClient</find>
-      <find>hearbeat_client</find>
-      <find>Heart</find>
-      <find>heart</find>
-      <find>NodeId</find>
-      <find>ClusterImplementation</find>
-      <find>setIsAlive</find>
-      <find>state</find>
-      <find>nodeId</find>
-      <find>uploadFiles</find>
-      <find>print</find>
-      <find>UUID</find>
-      <find>SERVER_PORT</find>
-      <find>hostip</find>
       <find>file_iterator</find>
       <find>ReplicateFile</find>
       <find>File size</find>
@@ -144,6 +164,21 @@
       <find>local</find>
       <find>Stats</find>
       <find>getleader</find>
+      <find>SERVER_IP</find>
+      <find>getlead</find>
+      <find>FileServiceImplementation</find>
+      <find>FileServiceServicer</find>
+      <find>update_warning</find>
+      <find>.FileServiceStub(</find>
+      <find>fileservicestub</find>
+      <find>.FileServiceStub</find>
+      <find>fileserviceservicer</find>
+      <find>FileService</find>
+      <find>pdb</find>
+      <find>getLeaderInfo</find>
+      <find>FileserviceStub</find>
+      <find>UploadFile</find>
+      <find>fileservice</find>
     </findStrings>
   </component>
   <component name="Git.Settings">
@@ -182,17 +217,18 @@
         <option value="$PROJECT_DIR$/cluster/libs/cluster.py" />
         <option value="$PROJECT_DIR$/requirements.txt" />
         <option value="$PROJECT_DIR$/file_service/fileservice.proto" />
-        <option value="$PROJECT_DIR$/cluster/cluster_client.py" />
         <option value="$PROJECT_DIR$/utils/FileHandler.py" />
-        <option value="$PROJECT_DIR$/file_service/file_client.py" />
         <option value="$PROJECT_DIR$/monitor/monit_server.py" />
+        <option value="$PROJECT_DIR$/file_service/proto/fileservice.proto" />
         <option value="$PROJECT_DIR$/file_service/proto/fileservice_pb2_grpc.py" />
         <option value="$PROJECT_DIR$/file_service/file_server.py" />
         <option value="$PROJECT_DIR$/cluster/cluster_server.py" />
+        <option value="$PROJECT_DIR$/cluster/cluster_client.py" />
+        <option value="$PROJECT_DIR$/file_service/file_client.py" />
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" fullScreen="true">
+  <component name="ProjectFrameBounds">
     <option name="x" value="16" />
     <option name="y" value="23" />
     <option name="width" value="1335" />
@@ -204,50 +240,94 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
             <path>
-              <item name="Fluffy" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Fluffy" type="462c0819:PsiDirectoryNode" />
+              <item name="python_fluffy" type="b2602c69:ProjectViewProjectNode" />
+              <item name="python_fluffy" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="Fluffy" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Fluffy" type="462c0819:PsiDirectoryNode" />
+              <item name="python_fluffy" type="b2602c69:ProjectViewProjectNode" />
+              <item name="python_fluffy" type="462c0819:PsiDirectoryNode" />
               <item name="cluster" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="Fluffy" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Fluffy" type="462c0819:PsiDirectoryNode" />
-              <item name="cluster" type="462c0819:PsiDirectoryNode" />
-              <item name="proto" type="462c0819:PsiDirectoryNode" />
+              <item name="python_fluffy" type="b2602c69:ProjectViewProjectNode" />
+              <item name="python_fluffy" type="462c0819:PsiDirectoryNode" />
+              <item name="Distributed-File-Storage-SuperNode" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="Fluffy" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Fluffy" type="462c0819:PsiDirectoryNode" />
+              <item name="python_fluffy" type="b2602c69:ProjectViewProjectNode" />
+              <item name="python_fluffy" type="462c0819:PsiDirectoryNode" />
               <item name="file_service" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="Fluffy" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Fluffy" type="462c0819:PsiDirectoryNode" />
+              <item name="python_fluffy" type="b2602c69:ProjectViewProjectNode" />
+              <item name="python_fluffy" type="462c0819:PsiDirectoryNode" />
+              <item name="file_service" type="462c0819:PsiDirectoryNode" />
+              <item name="file_data_50051" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="python_fluffy" type="b2602c69:ProjectViewProjectNode" />
+              <item name="python_fluffy" type="462c0819:PsiDirectoryNode" />
+              <item name="file_service" type="462c0819:PsiDirectoryNode" />
+              <item name="file_data_50051" type="462c0819:PsiDirectoryNode" />
+              <item name="prabaniy" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="python_fluffy" type="b2602c69:ProjectViewProjectNode" />
+              <item name="python_fluffy" type="462c0819:PsiDirectoryNode" />
+              <item name="file_service" type="462c0819:PsiDirectoryNode" />
+              <item name="file_data_50052" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="python_fluffy" type="b2602c69:ProjectViewProjectNode" />
+              <item name="python_fluffy" type="462c0819:PsiDirectoryNode" />
+              <item name="file_service" type="462c0819:PsiDirectoryNode" />
+              <item name="file_data_50052" type="462c0819:PsiDirectoryNode" />
+              <item name="prabaniy" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="python_fluffy" type="b2602c69:ProjectViewProjectNode" />
+              <item name="python_fluffy" type="462c0819:PsiDirectoryNode" />
+              <item name="file_service" type="462c0819:PsiDirectoryNode" />
+              <item name="file_data_50053" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="python_fluffy" type="b2602c69:ProjectViewProjectNode" />
+              <item name="python_fluffy" type="462c0819:PsiDirectoryNode" />
+              <item name="file_service" type="462c0819:PsiDirectoryNode" />
+              <item name="file_data_50053" type="462c0819:PsiDirectoryNode" />
+              <item name="prabaniy" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="python_fluffy" type="b2602c69:ProjectViewProjectNode" />
+              <item name="python_fluffy" type="462c0819:PsiDirectoryNode" />
               <item name="file_service" type="462c0819:PsiDirectoryNode" />
               <item name="proto" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="Fluffy" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Fluffy" type="462c0819:PsiDirectoryNode" />
+              <item name="python_fluffy" type="b2602c69:ProjectViewProjectNode" />
+              <item name="python_fluffy" type="462c0819:PsiDirectoryNode" />
+              <item name="load_balancer" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="python_fluffy" type="b2602c69:ProjectViewProjectNode" />
+              <item name="python_fluffy" type="462c0819:PsiDirectoryNode" />
               <item name="monitor" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
-              <item name="Fluffy" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Fluffy" type="462c0819:PsiDirectoryNode" />
-              <item name="raft_service" type="462c0819:PsiDirectoryNode" />
+              <item name="python_fluffy" type="b2602c69:ProjectViewProjectNode" />
+              <item name="python_fluffy" type="462c0819:PsiDirectoryNode" />
+              <item name="monitor" type="462c0819:PsiDirectoryNode" />
+              <item name="proto" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
       <pane id="PackagesPane" />
     </panes>
   </component>
@@ -278,7 +358,7 @@
       </list>
     </option>
   </component>
-  <component name="RunManager" selected="Python.file_server 50051">
+  <component name="RunManager" selected="Python.cluster_server">
     <configuration name="cluster_client" type="PythonConfigurationType" factoryName="Python" temporary="true">
       <module name="python_fluffy" />
       <option name="INTERPRETER_OPTIONS" value="" />
@@ -494,6 +574,7 @@
       <workItem from="1554424842912" duration="10603000" />
       <workItem from="1554512691673" duration="2686000" />
       <workItem from="1554516202015" duration="10298000" />
+      <workItem from="1554772569751" duration="5568000" />
     </task>
     <task id="LOCAL-00001" summary="Added code to connect to Supernode&#10;Fixed leader election">
       <created>1554767370693</created>
@@ -513,7 +594,7 @@
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="68788000" />
+    <option name="totallyTimeSpent" value="74356000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -525,13 +606,12 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1440" height="900" extended-state="0" />
+    <frame x="16" y="23" width="1335" height="829" extended-state="0" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.20366456" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.22351122" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
-      <window_info anchor="bottom" id="Messages" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.32971507" />
       <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.36385542" />
@@ -543,8 +623,9 @@
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.32971507" />
       <window_info anchor="bottom" id="Database Changes" order="9" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
-      <window_info anchor="bottom" id="Terminal" order="11" weight="0.14246947" />
+      <window_info active="true" anchor="bottom" id="Terminal" order="11" visible="true" weight="0.34192672" />
       <window_info anchor="bottom" id="Python Console" order="12" weight="0.32971507" />
+      <window_info anchor="bottom" id="Messages" order="13" />
       <window_info anchor="right" id="Commander" order="0" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="2" weight="0.25" />
@@ -568,17 +649,6 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Added code to connect to Supernode&#10;Fixed leader election" />
     <option name="LAST_COMMIT_MESSAGE" value="Added code to connect to Supernode&#10;Fixed leader election" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/cluster/cluster_server.py</url>
-          <line>202</line>
-          <option name="timeStamp" value="3" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
     <entry file="file://$PROJECT_DIR$/monitor/libs/comsumer.py" />
@@ -663,13 +733,6 @@
     <entry file="file://$PROJECT_DIR$/file_service/proto/__init__.py">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
-    <entry file="file://$PROJECT_DIR$/cluster/libs/node.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="480">
-          <caret line="32" selection-start-line="32" selection-end-line="32" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/cluster/libs/cluster.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="420">
@@ -712,31 +775,43 @@
     <entry file="file://$PROJECT_DIR$/file_service/file_data/prabaniy/sample_data.txt" />
     <entry file="file://$PROJECT_DIR$/file_service/file_data_50051/prabaniy/sample_data.txt" />
     <entry file="file://$PROJECT_DIR$/file_service/download_data_50051/prabaniy/sample_data.txt" />
-    <entry file="file://$PROJECT_DIR$/file_service/proto/fileservice.proto">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="203">
-          <caret line="22" column="24" selection-start-line="22" selection-start-column="8" selection-end-line="22" selection-end-column="24" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cluster/cluster_client.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="417">
-          <caret line="62" selection-start-line="62" selection-end-line="62" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/file_service/file_client.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="417">
-          <caret line="85" column="30" selection-start-line="85" selection-start-column="30" selection-end-line="85" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/utils/FileHandler.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="27">
           <caret line="22" column="15" selection-start-line="22" selection-start-column="4" selection-end-line="22" selection-end-column="15" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/anaconda3/lib/python3.7/site-packages/grpc/_channel.py" />
+    <entry file="file://$USER_HOME$/anaconda3/lib/python3.7/threading.py" />
+    <entry file="file://$PROJECT_DIR$/file_service/proto/fileservice_pb2.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="10845">
+          <caret line="723" column="13" selection-start-line="723" selection-start-column="13" selection-end-line="723" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/file_service/proto/fileservice_pb2_grpc.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="231">
+          <caret line="85" column="39" selection-start-line="85" selection-start-column="39" selection-end-line="85" selection-end-column="39" />
+          <folding>
+            <element signature="e#70#81#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/Distributed-File-Storage-SuperNode/superNode.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2457">
+          <caret line="24" column="16" selection-start-line="24" selection-start-column="16" selection-end-line="24" selection-end-column="16" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/cluster/libs/node.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="450">
+          <caret line="32" selection-start-line="32" selection-end-line="32" />
         </state>
       </provider>
     </entry>
@@ -750,50 +825,46 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/file_service/file_server.py">
+    <entry file="file://$PROJECT_DIR$/cluster/cluster_server.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="321">
-          <caret line="174" column="29" lean-forward="true" selection-start-line="174" selection-start-column="29" selection-end-line="174" selection-end-column="29" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/file_service/proto/fileservice_pb2_grpc.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="131">
-          <caret line="71" column="18" selection-start-line="71" selection-start-column="9" selection-end-line="71" selection-end-column="18" />
+        <state relative-caret-position="163">
+          <caret line="193" column="34" selection-start-line="193" selection-start-column="32" selection-end-line="193" selection-end-column="34" />
           <folding>
-            <element signature="e#70#81#0" expanded="true" />
+            <element signature="e#0#11#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/anaconda3/lib/python3.7/site-packages/grpc/_channel.py">
+    <entry file="file://$PROJECT_DIR$/cluster/cluster_client.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="139">
-          <caret line="465" selection-start-line="465" selection-end-line="465" />
+        <state relative-caret-position="323">
+          <caret line="66" column="4" selection-start-line="66" selection-start-column="4" selection-end-line="66" selection-end-column="4" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/file_service/proto/fileservice_pb2.py">
+    <entry file="file://$PROJECT_DIR$/file_service/proto/fileservice.proto">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="150">
-          <caret line="42" column="70" lean-forward="true" selection-start-line="42" selection-start-column="70" selection-end-line="42" selection-end-column="70" />
+        <state relative-caret-position="195">
+          <caret line="68" column="18" selection-start-line="68" selection-start-column="8" selection-end-line="68" selection-end-column="18" />
         </state>
       </provider>
     </entry>
-    <entry file="file://$USER_HOME$/anaconda3/lib/python3.7/threading.py">
+    <entry file="file://$PROJECT_DIR$/file_service/file_server.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="139">
-          <caret line="864" selection-start-line="864" selection-end-line="864" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/cluster/cluster_server.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="75">
-          <caret line="193" column="31" selection-start-line="193" selection-start-column="31" selection-end-line="193" selection-end-column="31" />
+        <state relative-caret-position="3064">
+          <caret line="303" column="42" selection-start-line="303" selection-start-column="42" selection-end-line="303" selection-end-column="42" />
           <folding>
-            <element signature="e#0#11#0" expanded="true" />
+            <element signature="e#0#9#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/file_service/file_client.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="162">
+          <caret line="69" column="59" lean-forward="true" selection-start-line="67" selection-start-column="10" selection-end-line="69" selection-end-column="59" />
+          <folding>
+            <element signature="e#0#9#0" expanded="true" />
           </folding>
         </state>
       </provider>

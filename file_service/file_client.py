@@ -21,8 +21,10 @@ class FileClient(object):
         # configure the host and the
         # the port to which the client should connect
         # to.
-        self.cluster_ip = 'localhost'
-        self.cluster_port = SERVER_PORT
+        #self.cluster_ip = 'localhost'
+        #self.cluster_port = SERVER_PORT
+        self.cluster_ip = '192.168.0.9'
+        self.cluster_port = 9000
 
         # instantiate a communication channel
         self.cluster_channel = grpc.insecure_channel(
@@ -36,7 +38,7 @@ class FileClient(object):
         leader_channel = grpc.insecure_channel(
             '{}:{}'.format(leader_response.ip, leader_response.port))
 
-        leader_stub = fileservice_pb2_grpc.FileServiceStub(leader_channel)
+        leader_stub = fileservice_pb2_grpc.FileserviceStub(leader_channel)
         Logger.info(f'Starting to delete the file...')
         request = fileservice_pb2.FileInfo()
         request.filename = filename
@@ -49,11 +51,11 @@ class FileClient(object):
         """
         Client function to call the rpc for uploading a file, gets the leader from cluster_server then uploads the file to it
         """
-        leader_response = self.cluster_stub.getLeader(cluster_pb2.getLeaderRequest())
-        leader_channel = grpc.insecure_channel(
-            '{}:{}'.format(leader_response.ip, leader_response.port))
+        # leader_response = self.cluster_stub.getLeader(cluster_pb2.getLeaderRequest())
+        # leader_channel = grpc.insecure_channel(
+        #     '{}:{}'.format(leader_response.ip, leader_response.port))
 
-        leader_stub = fileservice_pb2_grpc.FileServiceStub(leader_channel)
+        leader_stub = fileservice_pb2_grpc.FileserviceStub("192.168.0.9:9000")
         Logger.info(f'Starting to stream the file...')
         chunk_iterator = FileHandler.chunk_bytes(_file, username, fileservice_pb2)
         response = leader_stub.UploadFile(chunk_iterator)
@@ -63,11 +65,11 @@ class FileClient(object):
 
     def DownloadFile(self, _file, username):
         # get read node from cluster server
-        read_node = self.cluster_stub.getReadNode(cluster_pb2.getReadNodeRequest())
-        read_node_channel = grpc.insecure_channel(
-            '{}:{}'.format(read_node.ip, read_node.port))
+        # read_node = self.cluster_stub.getReadNode(cluster_pb2.getReadNodeRequest())
+        # read_node_channel = grpc.insecure_channel(
+        #     '{}:{}'.format(read_node.ip, read_node.port))
 
-        read_node_stub = fileservice_pb2_grpc.FileServiceStub(read_node_channel)
+        read_node_stub = fileservice_pb2_grpc.FileserviceStub("192.168.0.9:9000")
         Logger.info(f'Starting to Download the file...')
         request = fileservice_pb2.FileInfo()
         request.user_info.username = username
@@ -94,7 +96,7 @@ class FileClient(object):
         read_node_channel = grpc.insecure_channel(
             '{}:{}'.format(read_node.ip, read_node.port))
 
-        read_node_stub = fileservice_pb2_grpc.FileServiceStub(read_node_channel)
+        read_node_stub = fileservice_pb2_grpc.FileserviceStub(read_node_channel)
 
         Logger.info(f'Searching if the file exists...')
         request = fileservice_pb2.FileInfo()
@@ -109,7 +111,7 @@ class FileClient(object):
         read_node_channel = grpc.insecure_channel(
             '{}:{}'.format(read_node.ip, read_node.port))
 
-        read_node_stub = fileservice_pb2_grpc.FileServiceStub(read_node_channel)
+        read_node_stub = fileservice_pb2_grpc.FileserviceStub(read_node_channel)
 
         request = fileservice_pb2.UserInfo()
         request.username = username
@@ -121,7 +123,7 @@ class FileClient(object):
         read_node_channel = grpc.insecure_channel(
             '{}:{}'.format(read_node.ip, read_node.port))
 
-        read_node_stub = fileservice_pb2_grpc.FileServiceStub(read_node_channel)
+        read_node_stub = fileservice_pb2_grpc.FileserviceStub(read_node_channel)
 
         request = fileservice_pb2.UsersRequest()
         response = read_node_stub.GetUsers(request)
@@ -129,12 +131,18 @@ class FileClient(object):
 
 if __name__ == '__main__':
     curr_client = FileClient()
+    curr_client.UploadFile('/Users/prabaniy/Downloads/sample.pptx', 'prabaniy')
+    # read_node_channel = grpc.insecure_channel('192.168.0.9:9000')
+    #
+    # read_node_stub = fileservice_pb2_grpc.FileServiceStub(read_node_channel)
+    # read_node_stub.UploadFile(fileservice_pb2.ClusterInfo(ip=str(121211212), port=str(43343), clusterName="easy_money"))
+    #
     #curr_client.UploadFile('1', 'ben')
     #curr_client.UploadFile('1', 'prabaniy')
     #curr_client.UploadFile('1_2', 'ben')
     #curr_client.UploadFile('1_2', 'prabaniy')
     #curr_client.DownloadFile("1_2", "ben")
-    print(curr_client.UsersList())
+    #print(curr_client.UsersList())
     #print(curr_client.FileList('prabaniy'))
     #print(curr_client.FileSearch('prabaniy', '1_2'))
     #curr_client.FileDelete('1', 'ben')

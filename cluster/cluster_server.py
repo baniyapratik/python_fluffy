@@ -33,7 +33,7 @@ class ClusterImplementation(cluster_pb2_grpc.ClusterServiceServicer):
         neighbors = self.cluster.get_neighbors()
 
         leader = [node for node in neighbors if node['state'] == 'Leader']
-        if not leader:
+        if len(leader) == 0:
             leader_node = Node(request.ip, request.port)
             leader_node.setState("Leader")
             leader_node.isAlive = True
@@ -103,7 +103,7 @@ class ClusterImplementation(cluster_pb2_grpc.ClusterServiceServicer):
             channel = grpc.insecure_channel(
                 '{}:{}'.format(node_ip, node_port))
             # bind the client to the server channel
-            stub = fileservice_pb2_grpc.FileServiceStub(channel)
+            stub = fileservice_pb2_grpc.FileserviceStub(channel)
             stats_response = stub.Stats(fileservice_pb2.StatsRequest())
             # find least cpu utilization, will be selected as read node for client
             new_score = stats_response.cpuutil
@@ -145,7 +145,7 @@ class ClusterImplementation(cluster_pb2_grpc.ClusterServiceServicer):
             for neighbor in neighbors:
                 print(self.cluster.node_json(neighbor))
                 #neighbor_ip = neighbor.nodeInfo.ip
-                neighbor_ip = neighbor.ip
+                neighbor_ip = "localhost"
                 #neighbor_port = neighbor.nodeInfo.port
                 neighbor_port = neighbor.port
 
@@ -154,7 +154,7 @@ class ClusterImplementation(cluster_pb2_grpc.ClusterServiceServicer):
                     '{}:{}'.format(neighbor_ip, neighbor_port))
 
                 # bind the client to the server channel
-                stub = fileservice_pb2_grpc.FileServiceStub(channel)
+                stub = fileservice_pb2_grpc.FileserviceStub(channel)
                 try:
                     stub.Heartbeat(fileservice_pb2.HeartbeatRequest())
                     neighbor.setIsAlive(True)
@@ -184,25 +184,23 @@ class ClusterImplementation(cluster_pb2_grpc.ClusterServiceServicer):
             neighbors = self.cluster.get_neighbors()
             # sleep for random time between 2-13 seconds
             if len(neighbors) > 0:
-                time.sleep(randrange(1, 6))
+                time.sleep(3)
                 print("Reached the supernode heartbeat entry")
                 print("------------------------------------")
                 node_list = [node for node in neighbors if node['state'] == 'Leader']
-
-                print("*****", node_list)
-                leader = node_list[0]
-                ip = 'localhost'
+                if node_list:
+                    print("*****", node_list)
+                    leader = node_list[0]
+                ip = '192.168.0.49'
                 port = leader['port']
 
                 channel = grpc.insecure_channel('192.168.0.9:9000')
 
                 # bind the client to the server channel
-                stub = fileservice_pb2_grpc.FileServiceStub(channel)
+                stub = fileservice_pb2_grpc.FileserviceStub(channel)
                 print("Stub is", stub)
                 # Send the leader ip, port, cluster name to supernode
-                cluster_info = fileservice_pb2.ClusterInfo(ip=str(ip), port=str(port), clusterName="easy_money")
-                response = stub.getLeaderInfo(
-                    fileservice_pb2.ClusterInfo(ip=str(ip), port=str(port), clusterName="easy_money"))
+                response = stub.getLeaderInfo(fileservice_pb2.ClusterInfo(ip=str(ip), port=str(port), clusterName="easy_money"))
 
             continue
 
@@ -236,5 +234,5 @@ class ClusterImplementation(cluster_pb2_grpc.ClusterServiceServicer):
 
 
 if __name__ == '__main__':
-    cluster_server = ClusterImplementation(ip=SERVER_IP, port=SERVER_PORT)
+    cluster_server = ClusterImplementation(ip='localhost', port=SERVER_PORT)
     cluster_server.start_server()

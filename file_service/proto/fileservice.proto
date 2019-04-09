@@ -61,7 +61,7 @@ message ClusterStats {
 
 message Empty {}
 
-service FileService {
+service Fileservice {
     rpc DownloadFile (FileInfo) returns (stream FileData) {}
     rpc FileSearch (FileInfo) returns (ack) {}
     rpc FileList (UserInfo) returns (FileListResponse) {}

@@ -20,7 +20,7 @@ THRESHHOLD = 3500000
 SERVER_IP = '192.168.0.9'
 # SERVER_IP = 'localhost'
 
-class FileServiceImplementation(fileservice_pb2_grpc.FileServiceServicer):
+class FileServiceImplementation(fileservice_pb2_grpc.FileserviceServicer):
 
     def __init__(self, port, cluster_server_ip, cluster_server_port):
         self.ip = SERVER_IP
@@ -128,7 +128,7 @@ class FileServiceImplementation(fileservice_pb2_grpc.FileServiceServicer):
                     '{}:{}'.format(neighbor_ip, neighbor_port))
 
                 # bind the client to the server channel
-                stub = fileservice_pb2_grpc.FileServiceStub(channel)
+                stub = fileservice_pb2_grpc.FileserviceStub(channel)
                 Logger.info("ready for chunking to replicate")
 
                 print("About to chunk")
@@ -231,7 +231,7 @@ class FileServiceImplementation(fileservice_pb2_grpc.FileServiceServicer):
 
     def getClusterStats(self, request, context):
         cpu_data = psutil.cpu_percent()
-        cpu_usage = self.update_warning(cpu_data)
+        cpu_usage = cpu_data
         memory_swap_data = psutil.swap_memory().percent
         disk_available_data = psutil.swap_memory().percent
 
@@ -291,7 +291,7 @@ class FileServiceImplementation(fileservice_pb2_grpc.FileServiceServicer):
         file_server = grpc.server(futures.ThreadPoolExecutor(max_workers=100), options=(('grpc.max_message_length', 50 * 1024 * 1024,),('grpc.max_receive_message_length', 50 * 1024 * 1024)))
 
         # adding the services that this server can serve
-        fileservice_pb2_grpc.add_FileServiceServicer_to_server(self, file_server)
+        fileservice_pb2_grpc.add_FileserviceServicer_to_server(self, file_server)
 
         # bind the server to the described port
         file_server.add_insecure_port('[::]:{}'.format(self.port))
