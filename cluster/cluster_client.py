@@ -14,6 +14,9 @@ class ClusterClient():
         self.stub = cluster_pb2_grpc.ClusterServiceStub(self.channel)
 
     def leader_initiate(self, ip, port):
+        '''
+        This method is used for initiating a node to be a leader
+        '''
         Logger.info("Sending Request for leader initiate..")
         _node_info = cluster_pb2.Node(ip=ip, port=port)
         try:
@@ -24,6 +27,9 @@ class ClusterClient():
         return response
 
     def add_neighbor(self, ip, port):
+        '''
+        This method is used for adding a node in the cluster
+        '''
         Logger.info("Sending Request for add neighbor..")
         _node_info = cluster_pb2.Node(ip=ip, port=port)
         try:
@@ -34,6 +40,9 @@ class ClusterClient():
         return response
 
     def remove_neighbor(self, ip, port):
+        '''
+        This method is used to remove the node from the cluster
+        '''
         Logger.info("Sending Request for remove neighbor..")
         _node_info = cluster_pb2.Node(ip=ip, port=port)
         try:
@@ -44,6 +53,9 @@ class ClusterClient():
         return response
 
     def getLeader(self):
+        '''
+        This method is used to getting the leader of the cluster
+        '''
         Logger.info("Sending Request for get leader..")
         try:
             response = self.stub.getLeader()
@@ -53,6 +65,10 @@ class ClusterClient():
         return response
 
     def getNeighbors(self):
+        '''
+        This method is used to get particular neighbor
+        :return:
+        '''
         Logger.info("Sending Request for get neighbors..")
         try:
             response = self.stub.getNeighbors(cluster_pb2.getNeighborRequest())

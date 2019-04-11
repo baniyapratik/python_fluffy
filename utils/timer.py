@@ -1,6 +1,9 @@
 import time
 
 def clock(func):
+    '''
+    This wrapper used for getting the time taken by a funcition
+    '''
     def clocked(*args):
         t0 = time.perf_counter()
         result = func(*args)

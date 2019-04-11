@@ -1,6 +1,9 @@
 from cluster.libs.node import Node
 
 class Cluster:
+    '''
+    Class for managing cluster
+    '''
     neighbors = []
 
     def add_node(self, node):

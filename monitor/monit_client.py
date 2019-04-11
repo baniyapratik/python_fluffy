@@ -6,6 +6,9 @@ SERVER_PORT = 50052
 
 
 class HeartbeatClient():
+    '''
+    Class for heatbeat client
+    '''
     def __init__(self):
         self.host = 'localhost'
         self.port = SERVER_PORT
@@ -13,6 +16,9 @@ class HeartbeatClient():
         self.stub = hearbeat_pb2_grpc.HearBeatServiceStub(self.channel)
 
     def send_isalive(self, dest_ip, dest_port):
+        '''
+        Check response of a node is alive by sending send_isalive
+        '''
         Logger.info(f'Sending HeartBeat Request...')
         isalive = hearbeat_pb2.NodeInfo(
             ip = dest_ip, port = dest_port

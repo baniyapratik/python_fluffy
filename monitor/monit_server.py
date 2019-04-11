@@ -10,6 +10,9 @@ SERVER_PORT = '50052'
 
 
 class HeartBeatImplementation(hearbeat_pb2_grpc.HearBeatServiceServicer):
+    '''
+    This is the class for sending the heartbeat stats
+    '''
     def update_warning(self, cpu_data):
         if cpu_data > CPU_MAX:
             return "high"

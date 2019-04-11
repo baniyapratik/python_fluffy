@@ -1,5 +1,7 @@
 class Node:
-
+    '''
+    This class is for managing nodes
+    '''
     def __init__(self, ip, port):
         self.ip = ip
         self.port = port

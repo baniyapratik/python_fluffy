@@ -222,15 +222,21 @@ class FileServiceImplementation(fileservice_pb2_grpc.FileserviceServicer):
         Logger.info(f"Chunking complete")
 
     def Heartbeat(self, request, context):
-        Logger.info("got heartbeat")
+        Logger.info("heartbeat a-ok")
         return fileservice_pb2.HeartbeatResponse(response="ok")
 
     def Stats(self, request, context):
+        '''
+        This method is used for returning the stat of this current node
+        '''
         cpu_data = psutil.cpu_percent()
         swap_memory_data = psutil.swap_memory().percent
         return fileservice_pb2.StatsResponse(cpuutil=cpu_data, swap_memory=swap_memory_data)
 
     def getClusterStats(self, request, context):
+        '''
+        This method is used to get the cluster stat
+        '''
         cpu_data = psutil.cpu_percent()
         cpu_usage = cpu_data
         memory_swap_data = psutil.swap_memory().percent
@@ -240,6 +246,10 @@ class FileServiceImplementation(fileservice_pb2_grpc.FileserviceServicer):
                                                         used_mem =str(memory_swap_data))
 
     def initiate_data(self):
+        '''
+        This method is used for Network recover, when a sever goes down it will check if any file is missing compared to master and will start
+        downloading for eventual consistency
+        '''
         # get read_node to get files from
         read_node = self.cluster_server_stub.getReadNode(cluster_pb2.getReadNodeRequest())
 

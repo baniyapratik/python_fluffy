@@ -8,12 +8,18 @@ THRESHHOLD = 4000000
 
 
 def fileExists(file_path):
+    '''
+    Check if a file exists
+    '''
     if os.path.exists(file_path):
         return True
     return False
 
 
 def get_file_size(file_path):
+    '''
+    Get the size of the file
+    '''
     if fileExists(file_path):
         file_size = os.path.getsize(file_path)
         Logger.info(f"File size is {file_size}")

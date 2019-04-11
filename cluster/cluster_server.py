@@ -28,6 +28,9 @@ class ClusterImplementation(cluster_pb2_grpc.ClusterServiceServicer):
         self.hearbeat_client = HeartbeatClient()
 
     def leader_initiate(self, request, context):
+        '''
+        This method is used for initiating a node to be a leader
+        '''
         Logger.info("Request received for initiating leader.")
         # check if there is already leader in the cluster
         neighbors = self.cluster.get_neighbors()
@@ -46,6 +49,9 @@ class ClusterImplementation(cluster_pb2_grpc.ClusterServiceServicer):
         return response
 
     def add_neighbor(self, request, context):
+        '''
+        This method is used for adding a node in the cluster
+        '''
         neighbors = self.cluster.get_neighbors()
         node_search = [node for node in neighbors if node['ip'] == request.ip and node['port'] == request.port]
         if not node_search:
@@ -63,6 +69,9 @@ class ClusterImplementation(cluster_pb2_grpc.ClusterServiceServicer):
         return response
 
     def remove_neighbor(self, request, context):
+        '''
+        This method is used to remove the node from the cluster
+        '''
         ip = request.ip
         port = request.port
         Logger.info(f"Request received for removing neighbor. IP: {ip}, PORT: {port}")
@@ -79,6 +88,9 @@ class ClusterImplementation(cluster_pb2_grpc.ClusterServiceServicer):
         return response
 
     def getLeader(self, request, context):
+        '''
+        This mthod is used for getting the cluster leader
+        '''
         Logger.info("Searching for the Leader...")
         neighbors = self.cluster.get_neighbors()
         node_list = [node for node in neighbors if node['state'] == 'Leader']
@@ -90,6 +102,9 @@ class ClusterImplementation(cluster_pb2_grpc.ClusterServiceServicer):
         return response
 
     def getReadNode(self, request, context):
+        '''
+        This method is used for reading node data
+        '''
         Logger.info("Searching for a Read Node...")
         neighbors = self.cluster.get_neighbors()
         node_list = [node for node in neighbors if node['isAlive'] == 'True']
@@ -116,6 +131,9 @@ class ClusterImplementation(cluster_pb2_grpc.ClusterServiceServicer):
         return response
 
     def getNeighbors(self, request, context):
+        '''
+        This method gets all the nodes connected in the cluster
+        '''
         Logger.info("Searching for all neighbors...")
         neighbors = self.cluster.get_neighbors()
         neighbors_list = []
@@ -133,7 +151,9 @@ class ClusterImplementation(cluster_pb2_grpc.ClusterServiceServicer):
         return neighbor_list_response
 
     def neighborHeartbeat(self):
-
+        '''
+        This method is used for getting neighbor heartbeat
+        '''
         while True:
             # get neighbors[] from cluster
             neighbors = self.cluster.get_neighbors_objects()
@@ -204,6 +224,9 @@ class ClusterImplementation(cluster_pb2_grpc.ClusterServiceServicer):
 
     #RAFT implementation to run on its own thread
     def raftStartUp(self):
+        '''
+        References raft_service module
+        '''
         neighbors = self.cluster.get_neighbors_objects()
         neighbor_list = []
         for neighbor in neighbors:
@@ -233,6 +256,9 @@ class ClusterImplementation(cluster_pb2_grpc.ClusterServiceServicer):
                     print('Counter value:', o.getCounter(), o._getLeader(), o._getRaftLogSize(), o._getLastCommitIndex())
 
     def start_server(self):
+        '''
+        This method is used for starting the server
+        '''
         cluster_server = grpc.server(futures.ThreadPoolExecutor(max_workers=2))
 
         # our cluster service
