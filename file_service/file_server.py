@@ -17,8 +17,8 @@ import json
 SERVER_PORT = 50051
 CHUNK_SIZE = 4*1024
 THRESHHOLD = 3500000
-SERVER_IP = '192.168.0.9'
-# SERVER_IP = 'localhost'
+# SERVER_IP = '192.168.0.9'
+SERVER_IP = 'localhost'
 
 class FileServiceImplementation(fileservice_pb2_grpc.FileserviceServicer):
 

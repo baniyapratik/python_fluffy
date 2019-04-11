@@ -10,13 +10,13 @@ from random import randrange
 from threading import Thread
 from file_service.proto import fileservice_pb2, fileservice_pb2_grpc
 from monitor.monit_server import HeartBeatImplementation
-
+from cluster.counter import TestObj
 from monitor.monit_client import HeartbeatClient
 
 CPU_MAX = 20
 SERVER_PORT = '50053'
-SERVER_IP = '192.168.0.9'
-#SERVER_IP = 'localhost'
+#SERVER_IP = '192.168.0.9'
+SERVER_IP = 'localhost'
 ip = ''
 port = ''
 
@@ -138,12 +138,11 @@ class ClusterImplementation(cluster_pb2_grpc.ClusterServiceServicer):
             # get neighbors[] from cluster
             neighbors = self.cluster.get_neighbors_objects()
 
-            # sleep for random time between 2-13 seconds
+            # sleep for random time between 1-4 seconds
             time.sleep(randrange(1, 4))
-            print("We reached the heartbeat entry")
 
             for neighbor in neighbors:
-                print(self.cluster.node_json(neighbor))
+                Logger.info(self.cluster.node_json(neighbor))
                 #neighbor_ip = neighbor.nodeInfo.ip
                 neighbor_ip = "localhost"
                 #neighbor_port = neighbor.nodeInfo.port
@@ -182,29 +181,56 @@ class ClusterImplementation(cluster_pb2_grpc.ClusterServiceServicer):
         while True:
             # get neighbors[] from cluster
             neighbors = self.cluster.get_neighbors()
-            # sleep for random time between 2-13 seconds
+
             if len(neighbors) > 0:
                 time.sleep(3)
-                print("Reached the supernode heartbeat entry")
-                print("------------------------------------")
+
                 node_list = [node for node in neighbors if node['state'] == 'Leader']
                 alive_list = [node for node in neighbors if node['isAlive'] == 'True']
                 if len(alive_list) == 0:
                     continue
                 if node_list:
-                    print("*****", node_list)
                     leader = node_list[0]
-                ip = '192.168.0.49'
+                ip = 'localhost'
                 port = leader['port']
 
                 channel = grpc.insecure_channel('192.168.0.9:9000')
 
                 # bind the client to the server channel
                 stub = fileservice_pb2_grpc.FileserviceStub(channel)
-                print("Stub is", stub)
                 # Send the leader ip, port, cluster name to supernode
                 response = stub.getLeaderInfo(fileservice_pb2.ClusterInfo(ip=str(ip), port=str(port), clusterName="easy_money"))
 
+
+    #RAFT implementation to run on its own thread
+    def raftStartUp(self):
+        neighbors = self.cluster.get_neighbors_objects()
+        neighbor_list = []
+        for neighbor in neighbors:
+            neighbor_ip = neighbor.ip
+            neighbor_port = neighbor.port
+            neighbor_list.append(str(neighbor_ip)+":"+str(neighbor_port))
+
+
+        o = TestObj('localhost:50057', neighbor_list)
+        n = 0
+        old_value = -1
+        while True:
+            # time.sleep(0.005)
+            time.sleep(0.5)
+            if o.getCounter() != old_value:
+                old_value = o.getCounter()
+                print(old_value)
+            if o._getLeader() is None:
+                continue
+            # if n < 2000:
+            if n < 20:
+                # callback=partial(o.onAdd, cnt=n)
+                o.addValue(10, n)
+            n += 1
+            if n % 200 == 0:
+                if True:
+                    print('Counter value:', o.getCounter(), o._getLeader(), o._getRaftLogSize(), o._getLastCommitIndex())
 
     def start_server(self):
         cluster_server = grpc.server(futures.ThreadPoolExecutor(max_workers=2))
@@ -220,8 +246,8 @@ class ClusterImplementation(cluster_pb2_grpc.ClusterServiceServicer):
 
         thread_1 = Thread(target=self.neighborHeartbeat)
         thread_1.start()
-        thread_2 = Thread(target=self.sendLeaderInfo)
-        thread_2.start()
+        # thread_2 = Thread(target=self.sendLeaderInfo)
+        # thread_2.start()
 
 
         Logger.info(f'Cluster Server running on port {SERVER_PORT}...')
