@@ -188,6 +188,9 @@ class ClusterImplementation(cluster_pb2_grpc.ClusterServiceServicer):
                 print("Reached the supernode heartbeat entry")
                 print("------------------------------------")
                 node_list = [node for node in neighbors if node['state'] == 'Leader']
+                alive_list = [node for node in neighbors if node['isAlive'] == 'True']
+                if len(alive_list) == 0:
+                    continue
                 if node_list:
                     print("*****", node_list)
                     leader = node_list[0]
@@ -202,7 +205,6 @@ class ClusterImplementation(cluster_pb2_grpc.ClusterServiceServicer):
                 # Send the leader ip, port, cluster name to supernode
                 response = stub.getLeaderInfo(fileservice_pb2.ClusterInfo(ip=str(ip), port=str(port), clusterName="easy_money"))
 
-            continue
 
     def start_server(self):
         cluster_server = grpc.server(futures.ThreadPoolExecutor(max_workers=2))

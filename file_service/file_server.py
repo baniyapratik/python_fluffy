@@ -193,7 +193,8 @@ class FileServiceImplementation(fileservice_pb2_grpc.FileserviceServicer):
         filename = request.filename
         Logger.info(f"Download request received from {username}.")
 
-        destination_path = f"file_data_{self.port}/{username}/{filename}"
+        #destination_path = f"file_data_{self.port}/{username}/{filename}"
+        destination_path = f"file_data_50051/{username}/{filename}"
         if not os.path.exists(destination_path):
             raise RuntimeError("File does not exist")
         else:

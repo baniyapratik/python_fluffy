@@ -54,8 +54,8 @@ class FileClient(object):
         # leader_response = self.cluster_stub.getLeader(cluster_pb2.getLeaderRequest())
         # leader_channel = grpc.insecure_channel(
         #     '{}:{}'.format(leader_response.ip, leader_response.port))
-
-        leader_stub = fileservice_pb2_grpc.FileserviceStub("192.168.0.9:9000")
+        cluster_channel = grpc.insecure_channel("192.168.0.9:9000")
+        leader_stub = fileservice_pb2_grpc.FileserviceStub(cluster_channel)
         Logger.info(f'Starting to stream the file...')
         chunk_iterator = FileHandler.chunk_bytes(_file, username, fileservice_pb2)
         response = leader_stub.UploadFile(chunk_iterator)
@@ -68,8 +68,9 @@ class FileClient(object):
         # read_node = self.cluster_stub.getReadNode(cluster_pb2.getReadNodeRequest())
         # read_node_channel = grpc.insecure_channel(
         #     '{}:{}'.format(read_node.ip, read_node.port))
+        cluster_channel = grpc.insecure_channel("192.168.0.9:9000")
 
-        read_node_stub = fileservice_pb2_grpc.FileserviceStub("192.168.0.9:9000")
+        read_node_stub = fileservice_pb2_grpc.FileserviceStub(cluster_channel)
         Logger.info(f'Starting to Download the file...')
         request = fileservice_pb2.FileInfo()
         request.user_info.username = username
@@ -131,7 +132,9 @@ class FileClient(object):
 
 if __name__ == '__main__':
     curr_client = FileClient()
-    curr_client.UploadFile('/Users/prabaniy/Downloads/sample.pptx', 'prabaniy')
+
+    #curr_client.UploadFile('/Users/prabaniy/Downloads/myfile_2.txt', 'prabaniy')
+    curr_client.DownloadFile('testVid3.m4v', 'big')
     # read_node_channel = grpc.insecure_channel('192.168.0.9:9000')
     #
     # read_node_stub = fileservice_pb2_grpc.FileServiceStub(read_node_channel)
